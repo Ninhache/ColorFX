@@ -86,7 +86,6 @@ public class MainWindow extends Application{
 
 
 
-
     	
     	root.setCenter(rootCenter);
     	root.setTop(fpTopMenu);

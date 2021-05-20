@@ -5,17 +5,21 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-public class MainStage extends Stage {
+/** Fenêtre principale du logiciel **/
+public class MainStage extends BaseStage {
     private Button addBtn, removeAllBtn, aboutBtn, calibrateBtn;
     private Region menuSpacer;
+    private TableView colorTable;
+
+    private AboutStage aboutWindow;
 
     public MainStage() {
         // Initialiser les widgets
@@ -46,6 +50,17 @@ public class MainStage extends Stage {
 
         root.setBottom(bottomButtons);
 
+        colorTable = new TableView();
+
+        root.setCenter(colorTable);
+
+        // Info-bulles (tooltip)
+
+        setTooltip(addBtn, "Ouvrir une boite de dialogue pour sélectionner une couleur à ajouter");
+        setTooltip(removeAllBtn, "Vider la liste des couleurs");
+        setTooltip(aboutBtn, "Afficher des informations sur ce logiciel");
+        setTooltip(calibrateBtn, "Recalibrer les couleurs et les afficher dans une nouvelle fenêtre");
+
         // Gestion des events
         addBtn.setOnAction(this::onAddClicked);
         removeAllBtn.setOnAction(this::onRemoveAllClicked);
@@ -68,7 +83,14 @@ public class MainStage extends Stage {
     }
 
     private void onAboutClicked(ActionEvent e) {
-        System.out.println("ABOUT");
+        if (aboutWindow == null || !aboutWindow.isShowing()) {
+            aboutWindow = new AboutStage();
+            aboutWindow.initOwner(this);
+            aboutWindow.show();
+        } else {
+            aboutWindow.close();
+            aboutWindow = null;
+        }
     }
 
     private void onCalibrateClicked(ActionEvent e) {

@@ -2,12 +2,11 @@ package colorfix.app;
 
 import colorfix.app.stages.MainStage;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
+import javafx.application.HostServices;
 import javafx.stage.Stage;
 
 public class ColorFX extends Application {
+    private static HostServices services;
 
     public static void main(String[] args) {
         launch(args);
@@ -15,7 +14,12 @@ public class ColorFX extends Application {
 
     @Override
     public void start(Stage stage) {
+        services = getHostServices();
         var mainStage = new MainStage();
         mainStage.show();
+    }
+
+    public static HostServices hostServices() {
+        return services;
     }
 }
