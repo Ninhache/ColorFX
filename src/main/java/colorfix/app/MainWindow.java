@@ -96,7 +96,7 @@ public class MainWindow extends Application{
 
 		// 611 = toutes les tailles min des colonnes, + 2, sinon y'a un truc moche en bas
     	Scene mainScene = new Scene(root,612,400);
-    	stage.setResizable(false);
+    	//stage.setResizable(true);
     	stage.setScene(mainScene);
     	stage.setTitle("ColorFX");
     	stage.show();
