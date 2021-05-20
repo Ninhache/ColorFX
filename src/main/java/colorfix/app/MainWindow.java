@@ -77,8 +77,11 @@ public class MainWindow extends Application{
 
 
 		TableView mainTableView = new TableView<>();
+		// Warning:(79, 3) Raw use of parameterized class 'TableView'
 		mainTableView.setItems(getCellValue());
+		// Warning:(81, 3) Unchecked call to 'setItems(ObservableList<S>)' as a member of raw type 'javafx.scene.control.TableView'
 		mainTableView.getColumns().addAll(columnCanvas, columnHexa, columnRed, columnBlue, columnGreen, columnButtons);
+		// Warning:(83, 3) Unchecked call to 'addAll(E...)' as a member of raw type 'javafx.collections.ObservableList'
     	
 
 
@@ -91,8 +94,9 @@ public class MainWindow extends Application{
     	
     	rootCenter.getChildren().add(mainTableView);
 
-    	Scene mainScene = new Scene(root);
-    	
+		// 611 = toutes les tailles min des colonnes, + 2, sinon y'a un truc moche en bas
+    	Scene mainScene = new Scene(root,612,400);
+    	stage.setResizable(false);
     	stage.setScene(mainScene);
     	stage.setTitle("ColorFX");
     	stage.show();

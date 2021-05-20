@@ -3,6 +3,7 @@ package colorfix.app;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
@@ -27,6 +28,7 @@ public class cellValue {
         this.green = hexCode.getGreen();
 
         this.buttons = new HBox();
+        buttons.setAlignment(Pos.CENTER);
 
         this.buttonDelete = new Button("Modifier");
         this.buttonModify = new Button("Supprimer");
