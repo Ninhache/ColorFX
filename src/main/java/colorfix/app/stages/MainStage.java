@@ -25,6 +25,7 @@ public class MainStage extends BaseStage {
         // Initialiser les widgets
         BorderPane root = new BorderPane();
         ToolBar menu = new ToolBar();
+        menu.getStylesheets().add(getClass().getResource("/rename.css").toExternalForm());
         addBtn = new Button("Ajouter");
         removeAllBtn = new Button("Tout supprimer");
         aboutBtn = new Button("À propos");
@@ -32,6 +33,10 @@ public class MainStage extends BaseStage {
         addBtn.setAlignment(Pos.BASELINE_RIGHT);
 
         addBtn.setStyle("-fx-base: yellowgreen;");
+        addBtn.setId("toolbarButton");
+        removeAllBtn.setId("toolbarButton");
+        aboutBtn.setId("toolbarButton");
+
         removeAllBtn.setStyle("-fx-base: #de5454;");
 
         menuSpacer = new Region();

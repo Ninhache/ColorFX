@@ -16,6 +16,7 @@ public class ColorFX extends Application {
     public void start(Stage stage) {
         services = getHostServices();
         var mainStage = new MainStage();
+        mainStage.getScene().getStylesheets().add(getClass().getResource("/rename.css").toExternalForm());
         mainStage.show();
     }
 
