@@ -1,23 +1,23 @@
 package colorfix.app.stages;
 
+import colorfix.app.controls.ColorTableView;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import javafx.stage.Stage;
+import javafx.scene.paint.Color;
 
 /** Fenêtre principale du logiciel **/
 public class MainStage extends BaseStage {
     private Button addBtn, removeAllBtn, aboutBtn, calibrateBtn;
     private Region menuSpacer;
-    private TableView colorTable;
+    private ColorTableView colorTable;
 
     private AboutStage aboutWindow;
 
@@ -32,12 +32,12 @@ public class MainStage extends BaseStage {
 
         addBtn.setAlignment(Pos.BASELINE_RIGHT);
 
-        addBtn.setStyle("-fx-base: yellowgreen;");
+        //addBtn.setStyle("-fx-base: yellowgreen;");
+        //removeAllBtn.setStyle("-fx-base: #de5454;");
         addBtn.setId("toolbarButton");
         removeAllBtn.setId("toolbarButton");
         aboutBtn.setId("toolbarButton");
 
-        removeAllBtn.setStyle("-fx-base: #de5454;");
 
         menuSpacer = new Region();
         HBox.setHgrow(menuSpacer, Priority.ALWAYS);
@@ -55,9 +55,11 @@ public class MainStage extends BaseStage {
 
         root.setBottom(bottomButtons);
 
-        colorTable = new TableView();
+        colorTable = new ColorTableView();
 
         root.setCenter(colorTable);
+
+        colorTable.getItems().addAll(Color.WHITE, Color.BLACK, Color.SALMON, Color.OLIVEDRAB, Color.rgb(127, 0, 65));
 
         // Info-bulles (tooltip)
 
