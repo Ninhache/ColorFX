@@ -1,6 +1,7 @@
 package colorfix.app.controls.columns;
 
 import colorfix.app.util.ColorUtil;
+import colorfix.app.util.TableColumnUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableColumn;
@@ -11,10 +12,9 @@ public class HexadecimalValueColumn extends TableColumn<Color, String> {
         super("Hexadécimal");
         setCellValueFactory(this::getCellValue);
 
-        setPrefWidth(90);
-        setReorderable(false);
-        setResizable(false);
-        setSortable(false);
+        TableColumnUtil.setMinWidth(this, 100);
+        TableColumnUtil.setCommonBehavior(this, true, true, true);
+
         setHeaderStyle();
     }
 
@@ -22,7 +22,7 @@ public class HexadecimalValueColumn extends TableColumn<Color, String> {
         StringBuilder css = new StringBuilder();
 
         //css.append(String.format("-fx-base: %s;", ColorUtil.tohexCode(COLOR_COMPONENT.getHeaderColor())));
-        css.append("-fx-table-cell-border-color: transparent;");
+        css.append("-fx-table-cell-border-color: lightgray;");
 
         setStyle(css.toString());
     }

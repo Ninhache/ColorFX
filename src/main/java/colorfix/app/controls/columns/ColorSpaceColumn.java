@@ -2,6 +2,7 @@ package colorfix.app.controls.columns;
 
 import colorfix.app.enums.ColorComponent;
 import colorfix.app.enums.ColorSpace;
+import colorfix.app.util.TableColumnUtil;
 import javafx.scene.control.TableColumn;
 import javafx.scene.paint.Color;
 
@@ -15,17 +16,24 @@ public class ColorSpaceColumn extends TableColumn<Color, String> {
         super(colorSpace.toString());
         COLOR_SPACE = colorSpace;
 
-        setReorderable(false);
-        setResizable(false);
-        setSortable(false);
+        TableColumnUtil.setCommonBehavior(this, true, true, true);
+
         setHeaderStyle();
 
         for (ColorComponent component : colorSpace) {
             getColumns().add(new ColorComponentColumn(component));
         }
+
+        // Redimensionnement automatique des colonnes
+        widthProperty().addListener(x -> {
+            for (TableColumn column : getColumns()) {
+                column.setPrefWidth(getWidth() / getColumns().size());
+            }
+        });
+
     }
 
     private void setHeaderStyle() {
-        setStyle("-fx-table-cell-border-color: transparent;");
+        setStyle("-fx-table-cell-border-color: lightgray;");
     }
 }
