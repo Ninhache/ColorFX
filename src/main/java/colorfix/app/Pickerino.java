@@ -46,6 +46,8 @@ public class Pickerino extends Application {
 
 
 
+
+
         Button boutonAjout = new Button("Add color");
         boutonAjout.setCursor(Cursor.CROSSHAIR); // https://openjfx.io/javadoc/11/javafx.graphics/javafx/scene/Cursor.html
         
