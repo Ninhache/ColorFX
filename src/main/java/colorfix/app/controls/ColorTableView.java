@@ -18,8 +18,10 @@ public class ColorTableView extends TableView<Color> {
         ColorSpaceColumn columnRGB = new ColorSpaceColumn(ColorSpace.RGB);
         ColorSpaceColumn columnHSB = new ColorSpaceColumn(ColorSpace.HSB);
 
+        ActionsColumn columnAction = new ActionsColumn();
+
         //getColumns().addAll(columnThumbnail, columnHex, columnRed, columnGreen, columnBlue);
 
-        getColumns().addAll(columnThumbnail, columnHex, columnRGB, columnHSB);
+        getColumns().addAll(columnThumbnail, columnHex, columnRGB, columnHSB, columnAction);
     }
 }
