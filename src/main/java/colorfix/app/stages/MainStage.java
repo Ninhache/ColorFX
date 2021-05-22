@@ -1,5 +1,6 @@
 package colorfix.app.stages;
 
+import colorfix.app.Constants;
 import colorfix.app.controls.ColorTableView;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -63,10 +64,10 @@ public class MainStage extends BaseStage {
 
         // Info-bulles (tooltip)
 
-        setTooltip(addBtn, "Ouvrir une boite de dialogue pour sélectionner une couleur à ajouter");
-        setTooltip(removeAllBtn, "Vider la liste des couleurs");
-        setTooltip(aboutBtn, "Afficher des informations sur ce logiciel");
-        setTooltip(calibrateBtn, "Recalibrer les couleurs et les afficher dans une nouvelle fenêtre");
+        setTooltip(addBtn, Constants.TOOLTIP_ADDBTN);
+        setTooltip(removeAllBtn, Constants.TOOLTIP_REMOVALLEBTN);
+        setTooltip(aboutBtn, Constants.TOOLTIP_ABOUTBTN);
+        setTooltip(calibrateBtn, Constants.TOOLTIP_CALIBRATEBTN);
 
         // Gestion des events
         addBtn.setOnAction(this::onAddClicked);
@@ -78,7 +79,7 @@ public class MainStage extends BaseStage {
 
         Scene scene = new Scene(root, 640, 480);
         setScene(scene);
-        setTitle("ColorFX");
+        setTitle(Constants.APP_NAME);
     }
 
     private void onAddClicked(ActionEvent e) {
@@ -87,6 +88,8 @@ public class MainStage extends BaseStage {
 
     private void onRemoveAllClicked(ActionEvent e) {
         System.out.println("REMOVE");
+        //colorTable.getItems().removeAll(colorTable.getSelectionModel().getSelectedItem());
+        colorTable.getItems().removeAll(colorTable.getItems());
     }
 
     private void onAboutClicked(ActionEvent e) {
