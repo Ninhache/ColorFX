@@ -12,11 +12,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /** Fenêtre "À propos" **/
-public class AboutStage extends BaseStage {
+public class AboutStage extends ExtendedStage {
     private Label applicationTitle, applicationDescription;
     private HBox descriptionContainer;
     private Separator separatorA, separatorB;

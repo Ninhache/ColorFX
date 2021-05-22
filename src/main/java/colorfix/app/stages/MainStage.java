@@ -15,7 +15,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
 /** Fenêtre principale du logiciel **/
-public class MainStage extends BaseStage {
+public class MainStage extends ExtendedStage {
     private Button addBtn, removeAllBtn, aboutBtn, calibrateBtn;
     private Region menuSpacer;
     private ColorTableView colorTable;
@@ -77,7 +77,8 @@ public class MainStage extends BaseStage {
 
         // Déclaration de la scène
 
-        Scene scene = new Scene(root, 640, 480);
+        //Scene scene = new Scene(root, 640, 480);
+        Scene scene = new Scene(root);
         setScene(scene);
         setTitle(Constants.APP_NAME);
     }
