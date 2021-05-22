@@ -12,6 +12,7 @@ public class ColorThumbnailColumn extends TableColumn<Color, Canvas> {
         super("Couleur");
         setCellValueFactory(this::getCellValue);
 
+
         setPrefWidth(90);
         setReorderable(false);
         setResizable(false);
@@ -27,12 +28,15 @@ public class ColorThumbnailColumn extends TableColumn<Color, Canvas> {
         Color color = cell.getValue();
         double size = 20;
 
-        Canvas canvas = new Canvas(getPrefWidth(), size);
+        Canvas canvas = new Canvas((getPrefWidth()-5), size);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         gc.setFill(color);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        gc.setStroke(Color.BLACK);
+        gc.strokeRect(0,0, canvas.getWidth(), canvas.getHeight());
 
         return new SimpleObjectProperty<Canvas>(canvas);
     }
