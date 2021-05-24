@@ -2,6 +2,7 @@ package colorfix.app.stages;
 
 import colorfix.app.ColorFX;
 import colorfix.app.Constants;
+import colorfix.app.controls.StyledScene;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -66,7 +67,7 @@ public class AboutStage extends ExtendedStage {
 
         root.getChildren().addAll(applicationTitle, descriptionContainer, separatorA, textZone, separatorB, closeBtn);
 
-        Scene scene = new Scene(root, 400, 250);
+        Scene scene = new StyledScene(root, 400, 250);
         setScene(scene);
         setResizable(false);
         initStyle(StageStyle.UTILITY); // N'avoir que le bouton "fermer" de la fenêtre

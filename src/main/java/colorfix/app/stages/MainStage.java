@@ -1,6 +1,9 @@
 package colorfix.app.stages;
 
 import colorfix.app.Constants;
+import colorfix.app.controls.ActionLink;
+import colorfix.app.controls.StyledScene;
+import colorfix.app.controls.TablePlaceholder;
 import colorfix.app.controls.ColorTableView;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -20,13 +23,17 @@ public class MainStage extends ExtendedStage {
     private Region menuSpacer;
     private ColorTableView colorTable;
 
+    private TablePlaceholder tablePlaceholder;
+    private ActionLink addColorLink, openFileLink;
+
     private AboutStage aboutWindow;
 
     public MainStage() {
+        super();
         // Initialiser les widgets
         BorderPane root = new BorderPane();
         ToolBar menu = new ToolBar();
-        menu.getStylesheets().add(getClass().getResource("/rename.css").toExternalForm());
+
         addBtn = new Button("Ajouter");
         removeAllBtn = new Button("Tout supprimer");
         aboutBtn = new Button("À propos");
@@ -35,6 +42,8 @@ public class MainStage extends ExtendedStage {
 
         //addBtn.setStyle("-fx-base: yellowgreen;");
         //removeAllBtn.setStyle("-fx-base: #de5454;");
+        aboutBtn.setStyle("-fx-base: lightgray;");
+
         addBtn.setId("toolbarButton");
         removeAllBtn.setId("toolbarButton");
         aboutBtn.setId("toolbarButton");
@@ -44,7 +53,7 @@ public class MainStage extends ExtendedStage {
         HBox.setHgrow(menuSpacer, Priority.ALWAYS);
 
         menu.getItems().addAll(addBtn, removeAllBtn, menuSpacer, aboutBtn);
-
+        menu.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         root.setTop(menu);
 
         calibrateBtn = new Button("Calibrer les couleurs");
@@ -53,10 +62,18 @@ public class MainStage extends ExtendedStage {
         HBox bottomButtons = new HBox(calibrateBtn);
         bottomButtons.setAlignment(Pos.BASELINE_RIGHT);
         bottomButtons.setPadding(new Insets(8));
+        bottomButtons.setId("dark");
 
         root.setBottom(bottomButtons);
 
         colorTable = new ColorTableView();
+
+        addColorLink = new ActionLink("Ajouter une couleur", this::onAddClicked);
+        openFileLink = new ActionLink("Charger des couleurs depuis un fichier");
+
+        tablePlaceholder = new TablePlaceholder(Constants.APP_NAME, Constants.APP_ICON, "C'est un peu vide par ici...", addColorLink, openFileLink);
+
+        colorTable.setPlaceholder(tablePlaceholder);
 
         root.setCenter(colorTable);
 
@@ -78,7 +95,7 @@ public class MainStage extends ExtendedStage {
         // Déclaration de la scène
 
         //Scene scene = new Scene(root, 640, 480);
-        Scene scene = new Scene(root);
+        Scene scene = new StyledScene(root);
         setScene(scene);
         setTitle(Constants.APP_NAME);
     }
