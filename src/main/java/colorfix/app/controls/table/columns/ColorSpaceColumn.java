@@ -1,13 +1,10 @@
-package colorfix.app.controls.columns;
+package colorfix.app.controls.table.columns;
 
 import colorfix.app.enums.ColorComponent;
 import colorfix.app.enums.ColorSpace;
 import colorfix.app.util.TableColumnUtil;
 import javafx.scene.control.TableColumn;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ColorSpaceColumn extends TableColumn<Color, String> {
     private final ColorSpace COLOR_SPACE;

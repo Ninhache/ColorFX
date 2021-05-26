@@ -1,6 +1,6 @@
-package colorfix.app.controls;
+package colorfix.app.controls.table;
 
-import colorfix.app.controls.columns.*;
+import colorfix.app.controls.table.columns.*;
 import colorfix.app.enums.ColorSpace;
 import javafx.scene.control.TableView;
 import javafx.scene.paint.Color;

@@ -1,4 +1,4 @@
-package colorfix.app.controls.columns;
+package colorfix.app.controls.table.columns;
 
 import colorfix.app.enums.ColorComponent;
 import colorfix.app.util.ColorUtil;

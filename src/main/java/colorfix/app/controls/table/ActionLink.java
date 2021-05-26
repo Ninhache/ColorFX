@@ -1,4 +1,4 @@
-package colorfix.app.controls;
+package colorfix.app.controls.table;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
