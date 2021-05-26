@@ -1,11 +1,12 @@
 package colorfix.app.util;
 
-import javafx.scene.paint.Color;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javafx.scene.paint.Color;
 
 public class ColorUtil {
     public static String tohexCode(Color color) {
@@ -62,5 +63,12 @@ public class ColorUtil {
             grayList.add(Color.hsb(0,0, (i+1)/size));
         }
         return grayList;
+    }
+    
+    public static boolean isAnHexcode(String hex) {
+    	Pattern perfectHex = Pattern.compile("#[a-zA-Z0-9]{6}");
+    	Matcher matcher =  perfectHex.matcher(hex);
+    	
+    	return matcher.find();
     }
 }

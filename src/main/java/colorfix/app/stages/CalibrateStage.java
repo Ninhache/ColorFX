@@ -36,7 +36,7 @@ public class CalibrateStage extends ExtendedStage{
         exportBtn.setOnAction(this::onExportClicked);
 
         fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Color files (*.color)", "*.color"));
+        fileChooser.getExtensionFilters().addAll(Constants.FILTERS);
 
         removeAllBtn = new Button("Tout supprimer");
         removeAllBtn.setId("toolbarButton");

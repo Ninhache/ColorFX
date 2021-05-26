@@ -1,7 +1,17 @@
 package colorfix.app.stages;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import colorfix.app.Constants;
-import colorfix.app.controls.*;
+import colorfix.app.controls.ActionLink;
+import colorfix.app.controls.ColorTableView;
+import colorfix.app.controls.StyledScene;
+import colorfix.app.controls.TablePlaceholder;
+import colorfix.app.util.ColorUtil;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,11 +25,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 /** Fenêtre principale du logiciel **/
 public class MainStage extends ExtendedStage {
     private Button addBtn, importBtn, removeAllBtn, aboutBtn, calibrateBtn;
@@ -31,6 +36,7 @@ public class MainStage extends ExtendedStage {
 
     private AboutStage aboutWindow;
     private CalibrateStage calibrateWindow;
+    private ErrorStage errorWindow;
 
     private FileChooser fileChooser;
     private File file;
@@ -78,6 +84,15 @@ public class MainStage extends ExtendedStage {
 
         colorTable = new ColorTableView();
 
+        //colorTable.itemsProperty().addListener(x -> {
+        
+        colorTable.getItems().addListener((this::onTableModified));
+        
+        
+
+    	//calibrateBtn.setDisable(true);
+
+        
         addColorLink = new ActionLink("Ajouter une couleur", this::onAddClicked);
         openFileLink = new ActionLink("Charger des couleurs depuis un fichier");
         openFileLink.setOnAction(this::onImportClicked);
@@ -112,7 +127,7 @@ public class MainStage extends ExtendedStage {
 
         // Déclaration du gestionnaire de fichier
         fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Color files (*.color)", "*.color"));
+        fileChooser.getExtensionFilters().addAll(Constants.FILTERS);
     }
 
     private void onAddClicked(ActionEvent e) {
@@ -150,22 +165,46 @@ public class MainStage extends ExtendedStage {
     }
 
     private void onImportClicked(ActionEvent e){
+    	Boolean importSucces = false;
         file = fileChooser.showOpenDialog(this);
+        ArrayList<Color> list = new ArrayList<>();
         if(file != null){
-            ArrayList<Color> list = new ArrayList<>();
             try {
                 Scanner sc = new Scanner(file);
                 while(sc.hasNext()){
-                    list.add(Color.web(sc.nextLine()));
+                	String nextLine = sc.nextLine();
+                	
+                	if(ColorUtil.isAnHexcode(nextLine)) {
+                		list.add(Color.web(sc.nextLine()));
+                	}else {
+                		throw new Exception();
+                	}
                 }
+                importSucces = true;
             } catch (IOException ioException) {
                 ioException.printStackTrace();
-            }
-
-            colorTable.getItems().removeAll(colorTable.getItems());
-            colorTable.getItems().addAll(list);
+            } catch (Exception exc) {
+            	if (errorWindow == null || !errorWindow.isShowing()) {
+            		errorWindow = new ErrorStage("Essayez avec un autre fichier");
+            		errorWindow.initOwner(this);
+            		errorWindow.show();
+                } else {
+                	errorWindow.close();
+                	errorWindow = null;
+                }
+            } 
+        }
+        if(importSucces) {
+        	 colorTable.getItems().removeAll(colorTable.getItems());
+             colorTable.getItems().addAll(list);
+             importSucces = false;
         }
     }
 
-
+    private void onTableModified(ListChangeListener.Change<? extends Color> c) {
+    	
+    	System.out.println(colorTable.getItems().size());
+    	calibrateBtn.setDisable(colorTable.getItems().size() == 0);
+    	
+    }
 }
