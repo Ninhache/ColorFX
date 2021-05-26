@@ -163,6 +163,10 @@ public class ColorSquare extends ColorSquareAbstract {
     protected void redraw() {
         saturationOverlay.setBackground(getSaturationBackground(hueProperty().get()));
 
+        Color sourceColor = colorProperty().get();
+        Color modifiedColor = sourceColor.desaturate().brighter().desaturate();
+
+        String hex = ColorUtil.tohexCode(modifiedColor);
         Color color = Color.hsb(hueProperty().get(), 1.0, 1.0);
 
         String hex = ColorUtil.tohexCode(color);
@@ -186,18 +190,15 @@ public class ColorSquare extends ColorSquareAbstract {
     final double SCROLL_FACTOR = 0.05 * 360.0;
 
     private void onBarScroll(ScrollEvent e) {
-        double hue = hueProperty().get() + 360.0;
+        double hue = hueProperty().get();
         hue -= SCROLL_FACTOR * (e.getDeltaY() / e.getMultiplierY());
 
-        //hue = Maths.clamp(hue, 0.0, 360.0);
-        hue = hue % 360.0;
+        hue = Maths.clamp(hue, 0.0, 360.0);
 
         hueProperty().set(hue);
     }
 
     private void onSquareSelected(MouseEvent e) {
-        if (e.getButton() != MouseButton.PRIMARY) return;
-
         double w = brightnessOverlay.getWidth();
         double h = brightnessOverlay.getHeight();
 
