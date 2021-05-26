@@ -12,7 +12,7 @@ public class ColorFX extends Application {
     @Override
     public void start(Stage stage) {
         services = getHostServices();
-        var mainStage = new MainStage();
+        var mainStage = new TestStage();
 
         mainStage.show();
     }
