@@ -186,10 +186,11 @@ public class ColorSquare extends ColorSquareAbstract {
     final double SCROLL_FACTOR = 0.05 * 360.0;
 
     private void onBarScroll(ScrollEvent e) {
-        double hue = hueProperty().get();
+        double hue = hueProperty().get() + 360.0;
         hue -= SCROLL_FACTOR * (e.getDeltaY() / e.getMultiplierY());
 
-        hue = Maths.clamp(hue, 0.0, 360.0);
+        //hue = Maths.clamp(hue, 0.0, 360.0);
+        hue = hue % 360.0;
 
         hueProperty().set(hue);
     }
