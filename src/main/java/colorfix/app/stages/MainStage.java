@@ -1,10 +1,10 @@
 package colorfix.app.stages;
 
 import colorfix.app.Constants;
-import colorfix.app.controls.ActionLink;
+import colorfix.app.controls.table.ActionLink;
 import colorfix.app.controls.StyledScene;
-import colorfix.app.controls.TablePlaceholder;
-import colorfix.app.controls.ColorTableView;
+import colorfix.app.controls.table.TablePlaceholder;
+import colorfix.app.controls.table.ColorTableView;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -53,7 +53,7 @@ public class MainStage extends ExtendedStage {
         HBox.setHgrow(menuSpacer, Priority.ALWAYS);
 
         menu.getItems().addAll(addBtn, removeAllBtn, menuSpacer, aboutBtn);
-        menu.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        //menu.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         root.setTop(menu);
 
         calibrateBtn = new Button("Calibrer les couleurs");
