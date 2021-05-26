@@ -6,6 +6,7 @@ import colorfix.app.util.Maths;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleExpression;
 import javafx.geometry.Insets;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
@@ -162,16 +163,17 @@ public class ColorSquare extends ColorSquareAbstract {
     protected void redraw() {
         saturationOverlay.setBackground(getSaturationBackground(hueProperty().get()));
 
-        Color sourceColor = colorProperty().get();
-        Color modifiedColor = sourceColor.desaturate().brighter().desaturate();
+        Color color = Color.hsb(hueProperty().get(), 1.0, 1.0);
 
-        String hex = ColorUtil.tohexCode(modifiedColor);
+        String hex = ColorUtil.tohexCode(color);
 
         colorBarIndicator.setStyle("-fx-border-color: " + hex + ";");
     }
 
 
     protected void onBarSelected(MouseEvent e) {
+        if (e.getButton() != MouseButton.PRIMARY) return;
+
         double h = colorBar.getHeight();
 
         // LERP : Linear intERPolation
@@ -193,6 +195,8 @@ public class ColorSquare extends ColorSquareAbstract {
     }
 
     private void onSquareSelected(MouseEvent e) {
+        if (e.getButton() != MouseButton.PRIMARY) return;
+
         double w = brightnessOverlay.getWidth();
         double h = brightnessOverlay.getHeight();
 

@@ -18,6 +18,6 @@ public class TestStage extends ExtendedStage {
         Scene scene = new StyledScene(root, 500, 500);
         setScene(scene);
 
-        titleProperty().bind(Bindings.concat("ColorFX - HUE: ", Bindings.selectInteger(root.hueProperty()), " SAT: ", Bindings.selectInteger(root.saturationProperty()), " LUM: ", Bindings.selectInteger(root.brightnessProperty())));
+        titleProperty().bind(Bindings.concat("ColorFX - HUE: ", Bindings.selectInteger(root.hueProperty()), " SAT: ", Bindings.selectInteger(root.saturationProperty().multiply(100)), " LUM: ", Bindings.selectInteger(root.brightnessProperty().multiply(100))));
     }
 }
