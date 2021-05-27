@@ -27,7 +27,7 @@ public class ErrorStage extends ExtendedStage{
         
         Separator separator = new Separator(Orientation.HORIZONTAL);
         ImageView image = new ImageView(Constants.APP_ICON_ERROR);
-        //image.setPreserveRatio(true);
+        image.setPreserveRatio(true);
         image.setFitHeight(50);
         image.setSmooth(true);
         image.setCache(true);
@@ -50,10 +50,8 @@ public class ErrorStage extends ExtendedStage{
 		closeBtn.requestFocus();
 		
 		getIcons().add(Constants.APP_ICON_ERROR);
-		
-		
 	}
-	
+
 	private void onCloseBtnClicked(ActionEvent e) {
 		this.close();
 	}

@@ -175,7 +175,7 @@ public class MainStage extends ExtendedStage {
                 	String nextLine = sc.nextLine();
                 	
                 	if(ColorUtil.isAnHexcode(nextLine)) {
-                		list.add(Color.web(sc.nextLine()));
+                		list.add(Color.web(nextLine));
                 	}else {
                 		throw new Exception();
                 	}

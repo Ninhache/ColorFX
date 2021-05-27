@@ -2,10 +2,8 @@ package colorfix.app.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javafx.scene.paint.Color;
 
 public class ColorUtil {
@@ -18,18 +16,14 @@ public class ColorUtil {
 
     // TODO Fix la fonction ptdr
     public static ArrayList<Color> toGrayCours(Collection<Color> collection){
+        int z;
         ArrayList<Color> grayList = new ArrayList<>();
         for (Color c: collection) {
             System.out.println((double)(c.getRed()*0.3));
             System.out.println((double)(c.getGreen()*0.59));
             System.out.println((double)(c.getBlue()*0.11));
-
-            int z = (int)((c.getRed()*0.3 + c.getGreen()*0.59 + c.getBlue()*0.11)*255);
-
-
-
+            z = (int)((c.getRed()*0.3 + c.getGreen()*0.59 + c.getBlue()*0.11)*255);
             grayList.add(Color.rgb(z,z,z));
-
         }
         return grayList;
     }
@@ -37,7 +31,6 @@ public class ColorUtil {
     // Fonction de fou mais pas utilisée :pensive:
     public static ArrayList<Color> toGrayNeo1(Collection<Color> collection){
         ArrayList<Color> grayList = new ArrayList<>();
-
         for (Color c : collection) {
             grayList.add(Color.hsb(c.getHue(), 0, c.getBrightness()));
         }
@@ -48,17 +41,7 @@ public class ColorUtil {
     // J'ai placé tous mes bitcoins dessus
     public static ArrayList<Color> toGrayNeo2(Collection<Color> collection){
         ArrayList<Color> grayList = new ArrayList<>();
-
-        Iterator<Color> it = collection.iterator();
-
-        System.out.println(collection.size()+1);
-        System.out.println((1/6));
-
-        double idx = 1 / (double)(collection.size()+1);
         double size = collection.size()+1;
-
-        System.out.println(idx);
-
         for (int i = 0; i < collection.size() ; i++) {
             grayList.add(Color.hsb(0,0, (i+1)/size));
         }
@@ -66,9 +49,9 @@ public class ColorUtil {
     }
     
     public static boolean isAnHexcode(String hex) {
-    	Pattern perfectHex = Pattern.compile("#[a-zA-Z0-9]{6}");
-    	Matcher matcher =  perfectHex.matcher(hex);
-    	
+        String res = hex.replaceAll("\\\\n", "");
+    	Pattern perfectHex = Pattern.compile("^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$");
+    	Matcher matcher =  perfectHex.matcher(res);
     	return matcher.find();
     }
 }

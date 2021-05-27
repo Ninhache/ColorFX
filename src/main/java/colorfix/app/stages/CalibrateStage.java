@@ -78,7 +78,7 @@ public class CalibrateStage extends ExtendedStage{
             }
             try{
                 PrintWriter pw = new PrintWriter(file);
-                pw.println(res);
+                pw.print(res);
                 pw.close();
             }catch(IOException ioex){
                 System.out.println(ioex);
