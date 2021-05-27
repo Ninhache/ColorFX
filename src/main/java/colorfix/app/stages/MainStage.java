@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import colorfix.app.Constants;
-import colorfix.app.controls.ActionLink;
-import colorfix.app.controls.ColorTableView;
 import colorfix.app.controls.StyledScene;
-import colorfix.app.controls.TablePlaceholder;
+import colorfix.app.controls.table.ActionLink;
+import colorfix.app.controls.table.ColorTableView;
+import colorfix.app.controls.table.TablePlaceholder;
 import colorfix.app.util.ColorUtil;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
@@ -119,8 +119,6 @@ public class MainStage extends ExtendedStage {
         calibrateBtn.setOnAction(this::onCalibrateClicked);
 
         // Déclaration de la scène
-
-        //Scene scene = new Scene(root, 640, 480);
         Scene scene = new StyledScene(root);
         setScene(scene);
         setTitle(Constants.APP_NAME);
