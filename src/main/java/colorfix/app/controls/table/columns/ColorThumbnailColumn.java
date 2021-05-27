@@ -1,4 +1,4 @@
-package colorfix.app.controls.columns;
+package colorfix.app.controls.table.columns;
 
 import colorfix.app.util.TableColumnUtil;
 import javafx.beans.property.SimpleObjectProperty;
