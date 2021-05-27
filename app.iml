@@ -7,6 +7,19 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.core.resources/.projects" />
+      <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.debug.core" />
+      <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.debug.ui" />
+      <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.e4.ui.workbench.swt" />
+      <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.egit.ui" />
+      <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.jdt.debug.ui" />
+      <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.jdt.launching" />
+      <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.ltk.core.refactoring" />
+      <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.ltk.ui.refactoring" />
+      <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.m2e.core" />
+      <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.m2e.jdt" />
+      <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.ui.editors" />
+      <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.wst.sse.core" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
