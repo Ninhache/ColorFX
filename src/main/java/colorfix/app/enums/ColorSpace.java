@@ -5,7 +5,8 @@ import java.util.Iterator;
 
 public enum ColorSpace implements Iterable<ColorComponent> {
     RGB("RGB", ColorComponent.RED, ColorComponent.GREEN, ColorComponent.BLUE),
-    HSB("HSB", ColorComponent.HUE, ColorComponent.SATURATION, ColorComponent.BRIGHTNESS);
+    HSB("HSB", ColorComponent.HUE, ColorComponent.SATURATION, ColorComponent.BRIGHTNESS),
+    CMYK("CMYK", ColorComponent.CYAN, ColorComponent.MAGENTA, ColorComponent.YELLOW, ColorComponent.BLACK);
 
     private final String NAME;
     private final ColorComponent[] COMPONENTS;
