@@ -17,6 +17,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -27,18 +28,20 @@ import javafx.stage.FileChooser;
 
 /** Fenêtre principale du logiciel **/
 public class MainStage extends ExtendedStage {
-    private Button addBtn, importBtn, removeAllBtn, aboutBtn, calibrateBtn;
-    private Region menuSpacer;
-    private ColorTableView colorTable;
+    private final Button addBtn, importBtn, removeAllBtn, aboutBtn, calibrateBtn;
+    private final Region menuSpacer;
+    private final ColorTableView colorTable;
 
-    private TablePlaceholder tablePlaceholder;
-    private ActionLink addColorLink, openFileLink;
+    private final CheckBox showCmykColumn;
+
+    private final TablePlaceholder tablePlaceholder;
+    private final ActionLink addColorLink, openFileLink;
 
     private AboutStage aboutWindow;
     private CalibrateStage calibrateWindow;
     private ErrorStage errorWindow;
 
-    private FileChooser fileChooser;
+    private final FileChooser fileChooser;
     private File file;
 
     public MainStage() {
@@ -68,7 +71,9 @@ public class MainStage extends ExtendedStage {
         menuSpacer = new Region();
         HBox.setHgrow(menuSpacer, Priority.ALWAYS);
 
-        menu.getItems().addAll(addBtn, importBtn, removeAllBtn, menuSpacer, aboutBtn);
+        showCmykColumn = new CheckBox("Couleurs d'imprimante (CMJN)");
+
+        menu.getItems().addAll(addBtn, importBtn, removeAllBtn, showCmykColumn, menuSpacer, aboutBtn);
         menu.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         root.setTop(menu);
 
@@ -78,6 +83,7 @@ public class MainStage extends ExtendedStage {
         HBox bottomButtons = new HBox(calibrateBtn);
         bottomButtons.setAlignment(Pos.BASELINE_RIGHT);
         bottomButtons.setPadding(new Insets(8));
+        bottomButtons.setSpacing(8);
         bottomButtons.setId("dark");
 
         root.setBottom(bottomButtons);
@@ -85,14 +91,15 @@ public class MainStage extends ExtendedStage {
         colorTable = new ColorTableView();
 
         //colorTable.itemsProperty().addListener(x -> {
-        
+
         colorTable.getItems().addListener((this::onTableModified));
-        
-        
 
-    	//calibrateBtn.setDisable(true);
 
-        
+        colorTable.cmykVisibleProperty().bind(showCmykColumn.selectedProperty());
+
+        //calibrateBtn.setDisable(true);
+
+
         addColorLink = new ActionLink("Ajouter une couleur", this::onAddClicked);
         openFileLink = new ActionLink("Charger des couleurs depuis un fichier");
         openFileLink.setOnAction(this::onImportClicked);
