@@ -13,7 +13,7 @@ public class ColorFX extends Application {
     public void start(Stage stage) {
         services = getHostServices();
         // new MainStage(); || new TestStage();
-        var mainStage = new TestStage();
+        var mainStage = new MainStage();
 
         mainStage.show();
     }
