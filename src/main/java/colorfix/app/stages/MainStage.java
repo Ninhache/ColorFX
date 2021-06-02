@@ -96,6 +96,7 @@ public class MainStage extends ExtendedStage {
 
 
         colorTable.cmykVisibleProperty().bind(showCmykColumn.selectedProperty());
+        colorTable.rgbVisibleProperty().bind(showCmykColumn.selectedProperty().not());
 
         //calibrateBtn.setDisable(true);
 
