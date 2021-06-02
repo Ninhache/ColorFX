@@ -137,7 +137,8 @@ public class MainStage extends ExtendedStage {
     }
 
     private void onAddClicked(ActionEvent e) {
-        System.out.println("ADD");
+    	TestStage ok = new TestStage();
+    	ok.show();
     }
 
     private void onRemoveAllClicked(ActionEvent e) {
@@ -161,7 +162,7 @@ public class MainStage extends ExtendedStage {
         System.out.println((colorTable.getItems().size()));
 
         if (calibrateWindow == null || !calibrateWindow.isShowing()) {
-            calibrateWindow = new CalibrateStage(colorTable.getItems());
+            calibrateWindow = new CalibrateStage(colorTable.getItems(), colorTable.cmykVisibleProperty().get() );
             calibrateWindow.initOwner(this);
             calibrateWindow.show();
         } else {
