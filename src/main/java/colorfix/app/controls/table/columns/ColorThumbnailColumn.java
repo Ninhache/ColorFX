@@ -39,8 +39,9 @@ public class ColorThumbnailColumn extends TableColumn<Color, Canvas> {
 
     private void drawCanvas(Canvas canvas, Color color) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        
 
-        double width = canvas.getWidth() - 5;
+        double width = getWidth() / getColumns().size() ;
 
         gc.setFill(color);
         gc.fillRect(0, 0, width, canvas.getHeight());

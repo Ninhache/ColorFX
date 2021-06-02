@@ -33,7 +33,7 @@ public class ColorTableView extends TableView<Color> {
 
         ActionsColumn columnAction = new ActionsColumn();
 
-        getColumns().addAll(columnThumbnail, columnHex, columnRGB, columnHSB, columnCMYK, columnAction);
+        getColumns().addAll(columnThumbnail, columnHex, columnRGB, columnCMYK, columnHSB, columnAction);
     }
 
     // === PROPRIETES ===
