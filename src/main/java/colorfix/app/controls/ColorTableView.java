@@ -1,4 +1,4 @@
-package colorfix.app.controls.table;
+package colorfix.app.controls;
 
 import colorfix.app.controls.table.columns.*;
 import colorfix.app.enums.ColorSpace;
