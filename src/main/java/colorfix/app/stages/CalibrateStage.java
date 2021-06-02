@@ -7,6 +7,7 @@ import colorfix.app.util.ColorUtil;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -21,16 +22,17 @@ import java.util.Collection;
 public class CalibrateStage extends ExtendedStage{
     private Button  exportBtn, removeAllBtn;
     private CopyTableView colorTable;
-
+    private final CheckBox showCmykColumn;
     private FileChooser fileChooser;
     
     private File file;
 
-    public CalibrateStage(Collection<Color> collection){
+    public CalibrateStage(Collection<Color> collection, boolean isCmykVisible){
         super();
 
         BorderPane root = new BorderPane();
         ToolBar menu = new ToolBar();
+        
         
         exportBtn = new Button("Exporter");
         exportBtn.setOnAction(this::onExportClicked);
@@ -41,9 +43,10 @@ public class CalibrateStage extends ExtendedStage{
         removeAllBtn = new Button("Tout supprimer");
         removeAllBtn.setId("toolbarButton");
         removeAllBtn.setOnAction(this::onRemoveAllClicked);
+        
+        showCmykColumn = new CheckBox("Couleurs d'imprimante (CMJN)");
 
-
-        menu.getItems().addAll(exportBtn, removeAllBtn);
+        menu.getItems().addAll(exportBtn, removeAllBtn, showCmykColumn);
         menu.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         root.setTop(menu);
 
@@ -53,6 +56,15 @@ public class CalibrateStage extends ExtendedStage{
 
         ArrayList<Color> newCollec = ColorUtil.toGrayNeo2(collection);
         colorTable.getItems().addAll(newCollec);
+        
+        if(isCmykVisible) {
+        	showCmykColumn.setSelected(isCmykVisible);
+        }
+        
+        colorTable.cmykVisibleProperty().bind(showCmykColumn.selectedProperty());
+        colorTable.rgbVisibleProperty().bind(showCmykColumn.selectedProperty().not());
+        
+        
 
         Scene scene = new StyledScene(root);
         setScene(scene);
