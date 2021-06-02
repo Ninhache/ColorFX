@@ -8,7 +8,7 @@ import java.util.Scanner;
 import colorfix.app.Constants;
 import colorfix.app.controls.StyledScene;
 import colorfix.app.controls.table.ActionLink;
-import colorfix.app.controls.ColorTableView;
+import colorfix.app.controls.table.ColorTableView;
 import colorfix.app.controls.table.TablePlaceholder;
 import colorfix.app.util.ColorUtil;
 import javafx.collections.ListChangeListener;
