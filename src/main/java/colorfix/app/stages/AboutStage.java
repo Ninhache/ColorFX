@@ -67,7 +67,7 @@ public class AboutStage extends ExtendedStage {
 
         root.getChildren().addAll(applicationTitle, descriptionContainer, separatorA, textZone, separatorB, closeBtn);
 
-        Scene scene = new StyledScene(root, 400, 250);
+        Scene scene = new StyledScene(root, 500, 250);
         setScene(scene);
         setResizable(false);
         initStyle(StageStyle.UTILITY); // N'avoir que le bouton "fermer" de la fenêtre
