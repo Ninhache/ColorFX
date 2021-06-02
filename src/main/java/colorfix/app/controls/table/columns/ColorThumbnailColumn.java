@@ -25,9 +25,9 @@ public class ColorThumbnailColumn extends TableColumn<Color, Canvas> {
 
     protected ObservableValue<Canvas> getCellValue(CellDataFeatures<Color, Canvas> cell) {
         Color color = cell.getValue();
-        double size = 20;
+        double sizeW = cell.getTableColumn().getWidth();
 
-        Canvas canvas = new Canvas((getPrefWidth()-5), size);
+        Canvas canvas = new Canvas(sizeW, 25);
 
         canvas.widthProperty().bind(widthProperty());
         canvas.widthProperty().addListener(x -> drawCanvas(canvas, color));
@@ -40,13 +40,13 @@ public class ColorThumbnailColumn extends TableColumn<Color, Canvas> {
     private void drawCanvas(Canvas canvas, Color color) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
-
-        double width = getWidth() / getColumns().size() ;
+        double width = getWidth();
+        //System.out.println(width);
 
         gc.setFill(color);
-        gc.fillRect(0, 0, width, canvas.getHeight());
+        gc.fillRect(0, 0, width-10, canvas.getHeight());
 
         gc.setStroke(Color.BLACK);
-        gc.strokeRect(0,0, width, canvas.getHeight());
+        gc.strokeRect(0,0, width-10, canvas.getHeight());
     }
 }
