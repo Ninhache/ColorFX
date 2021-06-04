@@ -70,7 +70,8 @@ public class ColorTableView extends TableView<Color> {
         SeparatorMenuItem separatorMenuItem3 = new SeparatorMenuItem();
         
         contextMenu.getItems().addAll(menuItemMod,separatorMenuItem, menuItemAdd, separatorMenuItem2,menuItemDel,separatorMenuItem3,menuItemCpy);
-        
+
+
         
     }
     

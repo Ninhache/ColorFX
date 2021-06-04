@@ -9,6 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToolBar;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -20,12 +24,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class CalibrateStage extends ExtendedStage{
-    private Button  exportBtn, removeAllBtn;
+    private Button  exportBtn;
     private CopyTableView colorTable;
     private final CheckBox showCmykColumn;
     private FileChooser fileChooser;
     
     private File file;
+    private final Clipboard clipboard = Clipboard.getSystemClipboard();
+    private final ClipboardContent content = new ClipboardContent();
 
     public CalibrateStage(Collection<Color> collection, boolean isCmykVisible){
         super();
@@ -39,14 +45,10 @@ public class CalibrateStage extends ExtendedStage{
 
         fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(Constants.FILTERS);
-
-        removeAllBtn = new Button("Tout supprimer");
-        removeAllBtn.setId("toolbarButton");
-        removeAllBtn.setOnAction(this::onRemoveAllClicked);
         
         showCmykColumn = new CheckBox("Couleurs d'imprimante (CMJN)");
 
-        menu.getItems().addAll(exportBtn, removeAllBtn, showCmykColumn);
+        menu.getItems().addAll(exportBtn, showCmykColumn);
         menu.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         root.setTop(menu);
 
@@ -63,8 +65,6 @@ public class CalibrateStage extends ExtendedStage{
         
         colorTable.cmykVisibleProperty().bind(showCmykColumn.selectedProperty());
         colorTable.rgbVisibleProperty().bind(showCmykColumn.selectedProperty().not());
-        
-        
 
         Scene scene = new StyledScene(root);
         setScene(scene);
@@ -72,12 +72,11 @@ public class CalibrateStage extends ExtendedStage{
 
         setTitle(Constants.APP_NAME);
 
-    }
+        Runnable kcExport = ()-> {onExportClicked(new ActionEvent());};
+        getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCodeCombination.CONTROL_DOWN), kcExport);
 
-
-    private void onRemoveAllClicked(ActionEvent e) {
-        System.out.println("REMOVE");
-        colorTable.getItems().removeAll(colorTable.getItems());
+        Runnable kcCopy = ()-> {copy(new ActionEvent());};
+        getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.C, KeyCodeCombination.CONTROL_DOWN), kcCopy);
     }
 
     private void onExportClicked(ActionEvent e){
@@ -98,5 +97,12 @@ public class CalibrateStage extends ExtendedStage{
         }
     }
 
-
+    private void copy(ActionEvent e){
+        System.out.println("Copy");
+        if(!colorTable.getSelectionModel().isEmpty()){
+            System.out.println(ColorUtil.tohexCode( colorTable.getSelectionModel().getSelectedItem()));
+            content.putString(ColorUtil.tohexCode( colorTable.getSelectionModel().getSelectedItem()));
+            clipboard.setContent(content);
+        }
+    }
 }

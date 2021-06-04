@@ -30,6 +30,7 @@ public class CopyTableView extends TableView<Color> {
         ColorSpaceColumn columnCMYK = new ColorSpaceColumn(ColorSpace.CMYK);
 
         CopyActionsColumn columnAction = new CopyActionsColumn();
+
         
         columnRGB.visibleProperty().bind(rgbVisible);
         columnCMYK.visibleProperty().bind(cmykVisible);

@@ -13,8 +13,8 @@ import javafx.util.Callback;
 
 public class CopyActionsColumn extends TableColumn<Color, Void> {
 
-    final Clipboard clipboard = Clipboard.getSystemClipboard();
-    final ClipboardContent content = new ClipboardContent();
+    private final Clipboard clipboard = Clipboard.getSystemClipboard();
+    private final ClipboardContent content = new ClipboardContent();
 
     public CopyActionsColumn(){
         super("Actions");
