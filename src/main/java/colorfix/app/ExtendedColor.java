@@ -1,5 +1,6 @@
 package colorfix.app;
 
+import colorfix.app.util.Maths;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -222,11 +223,11 @@ public class ExtendedColor {
     }
 
     public double getBlack() {
-        return yellow.get();
+        return black.get();
     }
 
     public void setBlack(double value) {
-        yellow.set(value);
+        black.set(value);
     }
 
     // === EVENT LISTENERS ===
@@ -237,9 +238,13 @@ public class ExtendedColor {
         if (!localChange) {
             localChange = true;
 
-            setRed(getColor().getRed());
-            setGreen(getColor().getGreen());
-            setBlue(getColor().getBlue());
+            final double r = getColor().getRed();
+            final double g = getColor().getGreen();
+            final double b = getColor().getBlue();
+
+            setRed(r);
+            setGreen(g);
+            setBlue(b);
 
             setHue(getColor().getHue());
             setSaturation(getColor().getSaturation());
@@ -247,13 +252,20 @@ public class ExtendedColor {
 
             // == CMYK ==
 
-            final double K = 1-Math.max(Math.max(getRed(), getGreen()), getBlue());
-            final double KPrime = 1 - K;
+            /*final double k = 1-Math.max(Math.max(getRed(), getGreen()), getBlue());
+            final double c = (1 - r - k) / (1 - k);
+            final double m = (1 - g - k) / (1 - k);
+            final double y = (1 - b - k) / (1 - k);*/
 
-            setCyan((1-getRed()-K) / KPrime);
-            setMagenta((1-getGreen()-K) / KPrime);
-            setYellow((1-getBlue()-K) / KPrime);
-            setBlack(K);
+            final double k = 1 - Math.max(Math.max(getRed(), getGreen()),getBlue());
+            final double c = (1 - r - k) / (1 - k);
+            final double m = (1 - g - k) / (1 - k);
+            final double y = (1 - b - k) / (1 - k);
+
+            setBlack(k);
+            setCyan(c);
+            setMagenta(m);
+            setYellow(y);
 
             localChange = false;
         }
@@ -285,9 +297,14 @@ public class ExtendedColor {
 
     protected void onChangedCMYKA(Observable observable) {
         if (!localChange) {
-            final double r = (1 - getCyan()) * (1 - getBlack());
-            final double g = (1 - getMagenta()) * (1 - getBlack());
-            final double b = (1 - getYellow()) * (1 - getBlack());
+            final double k = getBlack();
+            final double c = getCyan();
+            final double m = getMagenta();
+            final double y = getYellow();
+
+            final double r = (1 - c) * (1 - k);
+            final double g = (1 - m) * (1 - k);
+            final double b = (1 - y) * (1 - k);
 
             final double a = getAlpha();
 
