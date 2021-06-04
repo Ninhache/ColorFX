@@ -2,6 +2,7 @@ package colorfix.app.stages;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,24 +12,22 @@ import colorfix.app.controls.table.ActionLink;
 import colorfix.app.controls.table.ColorTableView;
 import colorfix.app.controls.table.TablePlaceholder;
 import colorfix.app.util.ColorUtil;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ToolBar;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
+import javafx.scene.control.*;
+import javafx.scene.input.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 
 /** Fenêtre principale du logiciel **/
 public class MainStage extends ExtendedStage {
-    private final Button addBtn, importBtn, removeAllBtn, aboutBtn, calibrateBtn;
+    private final Button addBtn, importBtn, exportBtn, removeAllBtn, questionMark,aboutBtn, calibrateBtn;
     private final Region menuSpacer;
     private final ColorTableView colorTable;
 
@@ -40,9 +39,15 @@ public class MainStage extends ExtendedStage {
     private AboutStage aboutWindow;
     private CalibrateStage calibrateWindow;
     private ErrorStage errorWindow;
+    private QuestionStage questionWindow;
 
     private final FileChooser fileChooser;
     private File file;
+
+    private final Clipboard clipboard = Clipboard.getSystemClipboard();
+    private final ClipboardContent content = new ClipboardContent();
+
+    private SimpleBooleanProperty changed = new SimpleBooleanProperty(true);
 
     public MainStage() {
         super();
@@ -58,22 +63,24 @@ public class MainStage extends ExtendedStage {
         importBtn = new Button("Importer");
         importBtn.setOnAction(this::onImportClicked);
 
-
-        //addBtn.setStyle("-fx-base: yellowgreen;");
-        //removeAllBtn.setStyle("-fx-base: #de5454;");
         aboutBtn.setStyle("-fx-base: lightgray;");
 
         addBtn.setId("toolbarButton");
         removeAllBtn.setId("toolbarButton");
         aboutBtn.setId("toolbarButton");
 
+        exportBtn = new Button("Exporter");
+        exportBtn.setOnAction(this::onExportClicked);
+
+        questionMark = new Button("?");
+        questionMark.setOnAction(this::onQuestion);
 
         menuSpacer = new Region();
         HBox.setHgrow(menuSpacer, Priority.ALWAYS);
 
         showCmykColumn = new CheckBox("Couleurs d'imprimante (CMJN)");
 
-        menu.getItems().addAll(addBtn, importBtn, removeAllBtn, showCmykColumn, menuSpacer, aboutBtn);
+        menu.getItems().addAll(addBtn, importBtn, exportBtn, removeAllBtn, showCmykColumn, menuSpacer, questionMark,aboutBtn);
         menu.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         root.setTop(menu);
 
@@ -90,16 +97,12 @@ public class MainStage extends ExtendedStage {
 
         colorTable = new ColorTableView();
 
-        //colorTable.itemsProperty().addListener(x -> {
-
         colorTable.getItems().addListener((this::onTableModified));
-
 
         colorTable.cmykVisibleProperty().bind(showCmykColumn.selectedProperty());
         colorTable.rgbVisibleProperty().bind(showCmykColumn.selectedProperty().not());
 
-        //calibrateBtn.setDisable(true);
-
+        changed.setValue(true);
 
         addColorLink = new ActionLink("Ajouter une couleur", this::onAddClicked);
         openFileLink = new ActionLink("Charger des couleurs depuis un fichier");
@@ -134,6 +137,70 @@ public class MainStage extends ExtendedStage {
         // Déclaration du gestionnaire de fichier
         fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(Constants.FILTERS);
+
+
+        // KEYCODE COMBINATION
+        Runnable kcImport = ()-> {onImportClicked(new ActionEvent());};
+        getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.O, KeyCodeCombination.CONTROL_DOWN), kcImport);
+
+        Runnable kcExport = ()-> {onExportClicked(new ActionEvent());};
+        getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCodeCombination.CONTROL_DOWN), kcExport);
+
+        Runnable kcNew = ()-> {onRemoveAllClicked(new ActionEvent());};
+        getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.N, KeyCodeCombination.CONTROL_DOWN), kcNew);
+
+        Runnable kcCalibrate = () -> {onCalibrateClicked(new ActionEvent());};
+        getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.ENTER, KeyCodeCombination.CONTROL_DOWN), kcCalibrate);
+
+        Runnable kcCopy = ()-> {copy(new ActionEvent());};
+        getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.C, KeyCodeCombination.CONTROL_DOWN), kcCopy);
+
+
+
+        colorTable.getItems().addListener(new ListChangeListener<Color>(){
+            @Override
+            public void onChanged(Change<? extends Color> c) {
+                changed.setValue(true);
+                System.out.println(changed.get());
+            }
+        });
+
+    }
+
+    private void onQuestion(ActionEvent actionEvent) {
+        if (questionWindow == null || !questionWindow.isShowing()) {
+            questionWindow = new QuestionStage();
+            questionWindow.initOwner(this);
+            questionWindow.show();
+        } else {
+            questionWindow.close();
+            questionWindow = null;
+        }
+    }
+
+    private void onExportClicked(ActionEvent e){
+        if(changed.getValue()){
+            this.file = fileChooser.showSaveDialog(this);
+        }
+        if(file != null){
+            String res = "";
+            for(Color c : colorTable.getItems()){
+                res = res + ColorUtil.tohexCode(c) + "\n";
+            }
+            try{
+                PrintWriter pw = new PrintWriter(file);
+                pw.print(res);
+                pw.close();
+            }catch(IOException ioex){
+                System.out.println(ioex);
+            }finally {
+                changed.setValue(false);
+            }
+        }
+    }
+
+    private void mayWork(KeyEvent e) {
+        onImportClicked(new ActionEvent());
     }
 
     private void onAddClicked(ActionEvent e) {
@@ -173,14 +240,16 @@ public class MainStage extends ExtendedStage {
 
     private void onImportClicked(ActionEvent e){
     	Boolean importSucces = false;
+
         file = fileChooser.showOpenDialog(this);
+
         ArrayList<Color> list = new ArrayList<>();
         if(file != null){
             try {
                 Scanner sc = new Scanner(file);
                 while(sc.hasNext()){
                 	String nextLine = sc.nextLine();
-                	
+
                 	if(ColorUtil.isAnHexcode(nextLine)) {
                 		list.add(Color.web(nextLine));
                 	}else {
@@ -199,7 +268,7 @@ public class MainStage extends ExtendedStage {
                 	errorWindow.close();
                 	errorWindow = null;
                 }
-            } 
+            }
         }
         if(importSucces) {
         	 colorTable.getItems().removeAll(colorTable.getItems());
@@ -209,9 +278,15 @@ public class MainStage extends ExtendedStage {
     }
 
     private void onTableModified(ListChangeListener.Change<? extends Color> c) {
-    	
     	System.out.println(colorTable.getItems().size());
     	calibrateBtn.setDisable(colorTable.getItems().size() == 0);
-    	
+    }
+
+    private void copy(ActionEvent e){
+        if(!colorTable.getSelectionModel().isEmpty()){
+            System.out.println(ColorUtil.tohexCode( colorTable.getSelectionModel().getSelectedItem()));
+            content.putString(ColorUtil.tohexCode( colorTable.getSelectionModel().getSelectedItem()));
+            clipboard.setContent(content);
+        }
     }
 }

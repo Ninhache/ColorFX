@@ -19,7 +19,6 @@
       <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.m2e.jdt" />
       <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.ui.editors" />
       <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.wst.sse.core" />
-      <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.core.resources/.projects" />
       <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.debug.core" />
       <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.debug.ui" />
@@ -33,6 +32,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.m2e.jdt" />
       <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.ui.editors" />
       <excludeFolder url="file://$MODULE_DIR$/.metadata/.plugins/org.eclipse.wst.sse.core" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
