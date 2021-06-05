@@ -19,7 +19,7 @@ import javafx.scene.layout.Priority;
 
 public class ColorSlider extends HBox {
     private SimpleObjectProperty<ColorComponent> component = new SimpleObjectProperty<ColorComponent>();
-    private SimpleNormalizedProperty value = new SimpleNormalizedProperty();
+    private SimpleNormalizedProperty value;
 
     private final Label name;
     private final Slider slider;
@@ -29,6 +29,9 @@ public class ColorSlider extends HBox {
     private boolean localChange = false;
 
     public ColorSlider(ColorComponent component) {
+
+        value = new SimpleNormalizedProperty(0, component.equals(ColorComponent.HUE) ? 360 : 1);
+
         getStylesheets().add(Assets.getAssetPath("/color-sliders.css"));
         getStylesheets().add(Assets.getAssetPath("/color-components.css"));
 
@@ -66,7 +69,7 @@ public class ColorSlider extends HBox {
 
     private void onValueChanged(Observable observable) {
         if (!localChange) {
-            slider.setValue(Maths.clamp01(value.getValue()) * 100.0);
+            slider.setValue(value.getNormalized() * 100.0);
         }
     }
 
@@ -82,7 +85,7 @@ public class ColorSlider extends HBox {
 
             valueFactory.setValue(newValue);
 
-            value.set(Maths.clamp(slider.getValue() / 100.0, 0, 100));
+            value.setNormalized(Maths.clamp01(slider.getValue() / 100.0));
 
             localChange = false;
         }
@@ -96,7 +99,7 @@ public class ColorSlider extends HBox {
             final double newValue = (double)spinner.getValue() / maximum;
 
             slider.setValue(newValue * 100.0);
-            value.set(newValue);
+            value.setNormalized(newValue);
 
             localChange = false;
         }
