@@ -13,35 +13,36 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class ColorSliders extends TabPane {
+public class ColorSliderTabs extends TabPane {
     private ExtendedColor color;
 
-    public ColorSliders() {
+    public ColorSliderTabs() {
         this(Color.RED);
     }
 
-    public ColorSliders(Color color) {
+    public ColorSliderTabs(Color color) {
         this(new ExtendedColor(color));
     }
 
-    public ColorSliders(ExtendedColor color) {
+    public ColorSliderTabs(ExtendedColor color) {
         this.color = color;
-
-        VBox page = new VBox();
 
         for (ColorSpace cSpace : ColorSpace.values()) {
             if (cSpace == ColorSpace.HSB) continue;
 
+            VBox page = new VBox();
 
             page.setPadding(new Insets(8));
             page.setSpacing(12);
             page.setAlignment(Pos.TOP_CENTER);
 
+
+
             for (ColorComponent cComponent : cSpace) {
                 ColorSlider slider = new ColorSlider(cComponent);
                 HBox.setHgrow(slider, Priority.ALWAYS);
 
-                setBindgs(slider);
+                setBindings(slider);
 
                 page.getChildren().add(slider);
             }
@@ -49,30 +50,22 @@ public class ColorSliders extends TabPane {
             ScrollPane scroll = new ScrollPane(page);
 
             page.prefWidthProperty().bind(scroll.widthProperty());
-            page.prefHeightProperty().bind(scroll.heightProperty());
+            scroll.prefHeightProperty().bind(page.prefHeightProperty());
 
-            //Tab tab = new Tab(cSpace.toString(), scroll);
-            //tab.setClosable(false);
-            //getTabs().add(tab);
+            Tab tab = new Tab(cSpace.toString(), scroll);
+            tab.setClosable(false);
+            getTabs().add(tab);
         }
 
-        ScrollPane scroll = new ScrollPane(page);
-
-        page.prefWidthProperty().bind(scroll.widthProperty());
-        page.prefHeightProperty().bind(scroll.heightProperty());
-
-        Tab tab = new Tab("Sliders", scroll);
-        tab.setClosable(false);
-
-        getTabs().add(tab);
     }
 
-    private void setBindgs(ColorSlider slider) {
-        var sliderProp = slider.valueProperty();
+    private void setBindings(ColorSlider slider) {
+        ColorComponent c = slider.getComponent();
 
-        ColorComponent component = slider.getComponent();
-        var colorProp = component.value01Property(color);
+        var slideProp = slider.valueProperty();
+        var colorProp = c.value01Property(color);
 
-        sliderProp.bindBidirectional(colorProp);
+        colorProp.bindBidirectional(slideProp);
+
     }
 }

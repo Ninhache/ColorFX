@@ -1,7 +1,9 @@
 package colorfix.app.controls.slider;
 
 import colorfix.app.enums.ColorComponent;
+import colorfix.app.types.SimpleNormalizedProperty;
 import colorfix.app.util.Assets;
+import colorfix.app.util.Maths;
 import javafx.beans.Observable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -18,7 +20,7 @@ import javafx.scene.layout.Priority;
 
 public class ColorSlider extends HBox {
     private SimpleObjectProperty<ColorComponent> component = new SimpleObjectProperty<ColorComponent>();
-    private SimpleDoubleProperty value = new SimpleDoubleProperty();
+    private SimpleNormalizedProperty value = new SimpleNormalizedProperty();
 
     private final Label name;
     private final Slider slider;
@@ -65,21 +67,23 @@ public class ColorSlider extends HBox {
 
     private void onValueChanged(Observable observable) {
         if (!localChange) {
-            slider.setValue((int)(value.getValue() * 100));
-
+            slider.setValue(Maths.clamp01(value.getValue()) * 100.0);
         }
     }
 
     private void onSliderChanged(Observable observable) {
+        String s = String.format("%s = %s", component.get().name(), Double.toString(slider.getValue()));
+        //System.out.println(s);
+
         if (!localChange) {
             localChange = true;
 
             final int maximum = component.get().getMaximum();
-            int newValue = (int)(slider.getValue() / 100 * maximum);
+            int newValue = (int)(slider.getValue() / 100.0 * maximum);
 
             valueFactory.setValue(newValue);
 
-            value.set(slider.getValue() / 100.0);
+            value.set(Maths.clamp(slider.getValue() / 100.0, 0, 100));
 
             localChange = false;
         }
@@ -89,11 +93,11 @@ public class ColorSlider extends HBox {
         if (!localChange) {
             localChange = true;
 
-            final int maximum = component.get().getMaximum();
-            int newValue = (int)(spinner.getValue() / (maximum / 100.0));
-            slider.setValue(newValue);
+            final double maximum = component.get().getMaximum();
+            final double newValue = (double)spinner.getValue() / maximum;
 
-            value.set(spinner.getValue() / (double)maximum);
+            slider.setValue(newValue * 100.0);
+            value.set(newValue);
 
             localChange = false;
         }
