@@ -32,11 +32,9 @@ public class ColorSliderTabs extends TabPane {
 
             VBox page = new VBox();
 
-            page.setPadding(new Insets(8));
+            page.setPadding(new Insets(12));
             page.setSpacing(12);
             page.setAlignment(Pos.TOP_CENTER);
-
-
 
             for (ColorComponent cComponent : cSpace) {
                 ColorSlider slider = new ColorSlider(cComponent);
@@ -57,6 +55,7 @@ public class ColorSliderTabs extends TabPane {
             getTabs().add(tab);
         }
 
+        color.refresh();
     }
 
     private void setBindings(ColorSlider slider) {

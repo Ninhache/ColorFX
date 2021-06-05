@@ -34,7 +34,7 @@ public class ColorSlider extends HBox {
         getStylesheets().add(Assets.getAssetPath("/color-components.css"));
 
         name = new Label();
-        name.setPrefWidth(70);
+        name.setPrefWidth(60);
         name.minWidthProperty().bind(name.prefWidthProperty());
         name.setAlignment(Pos.CENTER_RIGHT);
 

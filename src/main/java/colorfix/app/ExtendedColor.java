@@ -254,14 +254,22 @@ public class ExtendedColor {
             // == CMYK ==
 
             final double k = 1 - Math.max(Math.max(getRed(), getGreen()),getBlue());
-            final double c = zeroIfNaN((1 - r - k) / (1 - k));
-            final double m = zeroIfNaN((1 - g - k) / (1 - k));
-            final double y = zeroIfNaN((1 - b - k) / (1 - k));
 
-            setBlack(k);
-            setCyan(c);
-            setMagenta(m);
-            setYellow(y);
+            if (k < 1) {
+                final double c = zeroIfNaN((1 - r - k) / (1 - k));
+                final double m = zeroIfNaN((1 - g - k) / (1 - k));
+                final double y = zeroIfNaN((1 - b - k) / (1 - k));
+
+                setBlack(k);
+                setCyan(c);
+                setMagenta(m);
+                setYellow(y);
+            } else {
+                setBlack(1);
+            }
+
+
+
 
             localChange = false;
         }
