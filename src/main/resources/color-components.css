@@ -32,3 +32,8 @@
 	-fx-accent-color: #000000;
 	-fx-tone-color: #ffffff;
 }
+
+#hue, #saturation, #brightness {
+	-fx-accent-color: #ffffff;
+	-fx-tone-color: #ffffff;
+}

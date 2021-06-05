@@ -1,5 +1,6 @@
 package colorfix.app.controls.picker;
 
+import colorfix.app.ExtendedColor;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -9,13 +10,15 @@ import javafx.scene.paint.Color;
 public abstract class ColorSquareAbstract extends HBox {
     // Propriétés
     private boolean localChange = false; // Sert à ne pas créer de boucle de déclenchement d'event infinie
-    private SimpleObjectProperty<Color> colorProp = new SimpleObjectProperty<Color>();
+    private ExtendedColor color;
 
     private SimpleDoubleProperty hueProp = new SimpleDoubleProperty(0);
     private SimpleDoubleProperty satProp = new SimpleDoubleProperty(0);
     private SimpleDoubleProperty brightProp = new SimpleDoubleProperty(0);
 
     protected ColorSquareAbstract() {
+        color = new ExtendedColor(Color.BLACK);
+
         colorProperty().addListener(this::onColorChanged);
         hueProperty().addListener(this::onHueChanged);
         saturationProperty().addListener(this::onSaturationChanged);
@@ -75,19 +78,19 @@ public abstract class ColorSquareAbstract extends HBox {
     }
 
     public SimpleObjectProperty<Color> colorProperty() {
-        return colorProp;
+        return color.colorProperty();
     }
 
     public SimpleDoubleProperty hueProperty() {
-        return hueProp;
+        return color.hueProperty();
     }
 
     public SimpleDoubleProperty saturationProperty() {
-        return satProp;
+        return color.saturationProperty();
     }
 
     public SimpleDoubleProperty brightnessProperty() {
-        return brightProp;
+        return color.brightnessProperty();
     }
 
     protected abstract void redraw();

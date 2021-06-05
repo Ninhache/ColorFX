@@ -268,9 +268,6 @@ public class ExtendedColor {
                 setBlack(1);
             }
 
-
-
-
             localChange = false;
         }
     }

@@ -12,7 +12,7 @@ public enum ColorComponent {
     RED        ("Rouge",      Color.web("de6060"), ExtendedColor::redProperty,        255),
     GREEN      ("Vert",       Color.web("a3cf4a"), ExtendedColor::greenProperty,      255),
     BLUE       ("Bleu",       Color.web("60a7de"), ExtendedColor::blueProperty,       255),
-    HUE        ("Teinte",     Color.web("ffffff"), ExtendedColor::hueProperty,          1),
+    HUE        ("Teinte",     Color.web("ffffff"), ExtendedColor::hueProperty,        360),
     SATURATION ("Saturation", Color.web("ffffff"), ExtendedColor::saturationProperty, 100),
     BRIGHTNESS ("Luminosité", Color.web("ffffff"), ExtendedColor::brightnessProperty, 100),
     CYAN       ("Cyan",       Color.web("14d2d9"), ExtendedColor::cyanProperty,       100),
@@ -45,7 +45,8 @@ public enum ColorComponent {
     }
 
     public int getValueInt(ExtendedColor color) {
-        return (int)Math.round(getValue01(color) * MAXIMUM_VALUE);
+        final int MAXIMUM = equals(HUE) ? 1 : MAXIMUM_VALUE;
+        return (int)Math.round(getValue01(color) * MAXIMUM);
     }
 
     public int getValueInt(Color color) {

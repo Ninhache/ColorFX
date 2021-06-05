@@ -3,6 +3,7 @@ package colorfix.app.controls.slider;
 import colorfix.app.ExtendedColor;
 import colorfix.app.enums.ColorComponent;
 import colorfix.app.enums.ColorSpace;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
@@ -28,7 +29,7 @@ public class ColorSliderTabs extends TabPane {
         this.color = color;
 
         for (ColorSpace cSpace : ColorSpace.values()) {
-            if (cSpace == ColorSpace.HSB) continue;
+            //if (cSpace == ColorSpace.HSB) continue;
 
             VBox page = new VBox();
 
@@ -65,6 +66,9 @@ public class ColorSliderTabs extends TabPane {
         var colorProp = c.value01Property(color);
 
         colorProp.bindBidirectional(slideProp);
+    }
 
+    public SimpleObjectProperty<Color> colorProperty() {
+        return color.colorProperty();
     }
 }

@@ -103,7 +103,7 @@ public class ColorSquare extends ColorSquareAbstract {
         //HBox.setHgrow(border, Priority.ALWAYS);
         //VBox.setVgrow(border, Priority.ALWAYS);
 
-        DoubleExpression hueProp = hueProperty().divide(360.0);
+        DoubleExpression hueProp = hueProperty();
         DoubleExpression satProp = saturationProperty();
         DoubleExpression brightProp = brightnessProperty();
 
@@ -121,6 +121,8 @@ public class ColorSquare extends ColorSquareAbstract {
         // Vertical
         DoubleExpression squareHProp = brightnessOverlay.heightProperty().subtract(CURSOR_SIZE);
         colorSquareIndicator.layoutYProperty().bind(Bindings.subtract(1, brightProp).multiply(squareHProp));
+
+        colorBarIndicator.layoutYProperty().addListener(e -> redraw());
     }
 
     private Background getBrightnessBackground() {
@@ -161,9 +163,9 @@ public class ColorSquare extends ColorSquareAbstract {
 
     @Override
     protected void redraw() {
-        saturationOverlay.setBackground(getSaturationBackground(hueProperty().get()));
+        saturationOverlay.setBackground(getSaturationBackground(hueProperty().get() * 360.0));
 
-        Color color = Color.hsb(hueProperty().get(), 1.0, 1.0);
+        Color color = Color.hsb(hueProperty().get() * 360.0, 1.0, 1.0);
 
         String hex = ColorUtil.tohexCode(color);
 
@@ -180,19 +182,19 @@ public class ColorSquare extends ColorSquareAbstract {
         double lerp = Maths.clamp(e.getY(), HALF_CURSOR_SIZE, h - HALF_CURSOR_SIZE) - HALF_CURSOR_SIZE;
         lerp = lerp / (h - CURSOR_SIZE);
 
-        hueProperty().set(360.0 * lerp);
+        hueProperty().set(lerp);
     }
 
     final double SCROLL_FACTOR = 0.05 * 360.0;
 
     private void onBarScroll(ScrollEvent e) {
-        double hue = hueProperty().get() + 360.0;
+        double hue = 360 * (hueProperty().get() + 1);
         hue -= SCROLL_FACTOR * (e.getDeltaY() / e.getMultiplierY());
 
         //hue = Maths.clamp(hue, 0.0, 360.0);
         hue = hue % 360.0;
 
-        hueProperty().set(hue);
+        hueProperty().set(hue / 360.0);
     }
 
     private void onSquareSelected(MouseEvent e) {
