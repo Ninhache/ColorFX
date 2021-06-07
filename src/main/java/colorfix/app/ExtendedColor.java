@@ -1,5 +1,7 @@
 package colorfix.app;
 
+import colorfix.app.types.SimpleNormalizedProperty;
+import colorfix.app.util.Maths;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -18,32 +20,32 @@ import javafx.scene.paint.Color;
  * https://www.rapidtables.com/convert/color/rgb-to-cmyk.html
  */
 public class ExtendedColor {
-    // === ATTRIBUTES ===
+    // === ATTRIBUTS ===
 
     // == BASE ==
     private final SimpleObjectProperty<Color> color = new SimpleObjectProperty<Color>();
 
-    private final SimpleDoubleProperty alpha = new SimpleDoubleProperty(0);
+    private final SimpleNormalizedProperty alpha = new SimpleNormalizedProperty(0);
 
     // == RGB ==
-    private final SimpleDoubleProperty red = new SimpleDoubleProperty(0);
-    private final SimpleDoubleProperty green = new SimpleDoubleProperty(0);
-    private final SimpleDoubleProperty blue = new SimpleDoubleProperty(0);
+    private final SimpleNormalizedProperty red = new SimpleNormalizedProperty(0);
+    private final SimpleNormalizedProperty green = new SimpleNormalizedProperty(0);
+    private final SimpleNormalizedProperty blue = new SimpleNormalizedProperty(0);
 
     // == HSB ==
     private final SimpleDoubleProperty hue = new SimpleDoubleProperty(0);
-    private final SimpleDoubleProperty saturation = new SimpleDoubleProperty(0);
-    private final SimpleDoubleProperty brightness = new SimpleDoubleProperty(0);
+    private final SimpleNormalizedProperty saturation = new SimpleNormalizedProperty(0);
+    private final SimpleNormalizedProperty brightness = new SimpleNormalizedProperty(0);
 
     // == CMYK ==
-    private final SimpleDoubleProperty cyan = new SimpleDoubleProperty(0);
-    private final SimpleDoubleProperty magenta = new SimpleDoubleProperty(0);
-    private final SimpleDoubleProperty yellow = new SimpleDoubleProperty(0);
-    private final SimpleDoubleProperty black = new SimpleDoubleProperty(0);
+    private final SimpleNormalizedProperty cyan = new SimpleNormalizedProperty(0);
+    private final SimpleNormalizedProperty magenta = new SimpleNormalizedProperty(0);
+    private final SimpleNormalizedProperty yellow = new SimpleNormalizedProperty(0);
+    private final SimpleNormalizedProperty black = new SimpleNormalizedProperty(0);
 
     private boolean localChange = false;
 
-    // === CONSTRUCTORS ===
+    // === CONSTRUCTEURS ===
 
     public ExtendedColor(Color color) {
         // == BASE ==
@@ -80,20 +82,20 @@ public class ExtendedColor {
         return color;
     }
 
-    public SimpleDoubleProperty alphaProperty() {
+    public SimpleNormalizedProperty alphaProperty() {
         return alpha;
     }
 
     // == RGB ==
-    public SimpleDoubleProperty redProperty() {
+    public SimpleNormalizedProperty redProperty() {
         return red;
     }
 
-    public SimpleDoubleProperty greenProperty() {
+    public SimpleNormalizedProperty greenProperty() {
         return green;
     }
 
-    public SimpleDoubleProperty blueProperty() {
+    public SimpleNormalizedProperty blueProperty() {
         return blue;
     }
 
@@ -102,28 +104,28 @@ public class ExtendedColor {
         return hue;
     }
 
-    public SimpleDoubleProperty saturationProperty() {
+    public SimpleNormalizedProperty saturationProperty() {
         return saturation;
     }
 
-    public SimpleDoubleProperty brightnessProperty() {
+    public SimpleNormalizedProperty brightnessProperty() {
         return brightness;
     }
 
     // == CMYK ==
-    public SimpleDoubleProperty cyanProperty() {
+    public SimpleNormalizedProperty cyanProperty() {
         return cyan;
     }
 
-    public SimpleDoubleProperty magentaProperty() {
+    public SimpleNormalizedProperty magentaProperty() {
         return magenta;
     }
 
-    public SimpleDoubleProperty yellowProperty() {
+    public SimpleNormalizedProperty yellowProperty() {
         return yellow;
     }
 
-    public SimpleDoubleProperty blackProperty() {
+    public SimpleNormalizedProperty blackProperty() {
         return black;
     }
 
@@ -222,11 +224,11 @@ public class ExtendedColor {
     }
 
     public double getBlack() {
-        return yellow.get();
+        return black.get();
     }
 
     public void setBlack(double value) {
-        yellow.set(value);
+        black.set(value);
     }
 
     // === EVENT LISTENERS ===
@@ -237,26 +239,45 @@ public class ExtendedColor {
         if (!localChange) {
             localChange = true;
 
-            setRed(getColor().getRed());
-            setGreen(getColor().getGreen());
-            setBlue(getColor().getBlue());
+            final double r = getColor().getRed();
+            final double g = getColor().getGreen();
+            final double b = getColor().getBlue();
 
-            setHue(getColor().getHue());
+            setRed(r);
+            setGreen(g);
+            setBlue(b);
+
             setSaturation(getColor().getSaturation());
             setBrightness(getColor().getBrightness());
+            setHue(getColor().getHue());
 
             // == CMYK ==
 
-            final double K = 1-Math.max(Math.max(getRed(), getGreen()), getBlue());
-            final double KPrime = 1 - K;
+            final double k = 1 - Math.max(Math.max(getRed(), getGreen()),getBlue());
 
-            setCyan((1-getRed()-K) / KPrime);
-            setMagenta((1-getGreen()-K) / KPrime);
-            setYellow((1-getBlue()-K) / KPrime);
-            setBlack(K);
+            //if (k < 1) {
+                final double c = zeroIfNaN((1 - r - k) / (1 - k));
+                final double m = zeroIfNaN((1 - g - k) / (1 - k));
+                final double y = zeroIfNaN((1 - b - k) / (1 - k));
+
+                setBlack(k);
+                setCyan(c);
+                setMagenta(m);
+                setYellow(y);
+            //} else {
+            //    setBlack(1);
+            //}
 
             localChange = false;
         }
+    }
+
+    private double zeroIfNaN(double value) {
+        return Double.isNaN(value) ? 0 : value;
+    }
+
+    public void refresh() {
+        onColorChanged(colorProperty());
     }
 
     protected void onChangedRGBA(Observable observable) {
@@ -285,9 +306,14 @@ public class ExtendedColor {
 
     protected void onChangedCMYKA(Observable observable) {
         if (!localChange) {
-            final double r = (1 - getCyan()) * (1 - getBlack());
-            final double g = (1 - getMagenta()) * (1 - getBlack());
-            final double b = (1 - getYellow()) * (1 - getBlack());
+            final double k = zeroIfNaN(getBlack());
+            final double c = zeroIfNaN(getCyan());
+            final double m = zeroIfNaN(getMagenta());
+            final double y = zeroIfNaN(getYellow());
+
+            final double r = (1 - c) * (1 - k);
+            final double g = (1 - m) * (1 - k);
+            final double b = (1 - y) * (1 - k);
 
             final double a = getAlpha();
 

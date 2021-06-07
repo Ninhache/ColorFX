@@ -16,6 +16,10 @@ public enum ColorSpace implements Iterable<ColorComponent> {
         COMPONENTS = Arrays.copyOf(components, components.length);
     }
 
+    public boolean contains(ColorComponent component) {
+        return Arrays.asList(COMPONENTS).contains(component);
+    }
+
     @Override
     public Iterator<ColorComponent> iterator() {
         return Arrays.stream(COMPONENTS).iterator();

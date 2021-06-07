@@ -11,6 +11,7 @@ import colorfix.app.controls.StyledScene;
 import colorfix.app.controls.table.ActionLink;
 import colorfix.app.controls.table.ColorTableView;
 import colorfix.app.controls.table.TablePlaceholder;
+import colorfix.app.stages.dialogs.ColorChooserDialog;
 import colorfix.app.util.ColorUtil;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -27,7 +28,7 @@ import javafx.stage.FileChooser;
 
 /** Fenêtre principale du logiciel **/
 public class MainStage extends ExtendedStage {
-    private final Button addBtn, importBtn, exportBtn, removeAllBtn, questionMark,aboutBtn, calibrateBtn;
+    private final Button addBtn, importBtn, exportBtn, removeAllBtn, questionMark ,aboutBtn, calibrateBtn;
     private final Region menuSpacer;
     private final ColorTableView colorTable;
 
@@ -63,6 +64,8 @@ public class MainStage extends ExtendedStage {
         importBtn = new Button("Importer");
         importBtn.setOnAction(this::onImportClicked);
 
+        //addBtn.setStyle("-fx-base: yellowgreen;");
+        //removeAllBtn.setStyle("-fx-base: #de5454;");
         aboutBtn.setStyle("-fx-base: lightgray;");
 
         addBtn.setId("toolbarButton");
@@ -155,8 +158,6 @@ public class MainStage extends ExtendedStage {
         Runnable kcCopy = ()-> {copy(new ActionEvent());};
         getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.C, KeyCodeCombination.CONTROL_DOWN), kcCopy);
 
-
-
         colorTable.getItems().addListener(new ListChangeListener<Color>(){
             @Override
             public void onChanged(Change<? extends Color> c) {
@@ -164,7 +165,6 @@ public class MainStage extends ExtendedStage {
                 System.out.println(changed.get());
             }
         });
-
     }
 
     private void onQuestion(ActionEvent actionEvent) {
@@ -204,8 +204,11 @@ public class MainStage extends ExtendedStage {
     }
 
     private void onAddClicked(ActionEvent e) {
-    	TestStage ok = new TestStage();
-    	ok.show();
+        Color c = ColorChooserDialog.open();
+
+        if (c != null) {
+            colorTable.getItems().add(c);
+        }
     }
 
     private void onRemoveAllClicked(ActionEvent e) {
@@ -238,7 +241,7 @@ public class MainStage extends ExtendedStage {
         }
     }
 
-    private void onImportClicked(ActionEvent e){
+    private void onImportClicked(ActionEvent e) {
     	Boolean importSucces = false;
 
         file = fileChooser.showOpenDialog(this);
@@ -278,6 +281,7 @@ public class MainStage extends ExtendedStage {
     }
 
     private void onTableModified(ListChangeListener.Change<? extends Color> c) {
+
     	System.out.println(colorTable.getItems().size());
     	calibrateBtn.setDisable(colorTable.getItems().size() == 0);
     }

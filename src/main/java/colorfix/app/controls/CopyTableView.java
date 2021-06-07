@@ -1,8 +1,8 @@
 package colorfix.app.controls;
 
-import colorfix.app.controls.columns.*;
 import colorfix.app.controls.table.columns.ColorSpaceColumn;
 import colorfix.app.controls.table.columns.ColorThumbnailColumn;
+import colorfix.app.controls.table.columns.CopyActionsColumn;
 import colorfix.app.controls.table.columns.HexadecimalValueColumn;
 import colorfix.app.enums.ColorSpace;
 import javafx.beans.property.SimpleBooleanProperty;

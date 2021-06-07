@@ -16,14 +16,22 @@ public class ColorUtil {
         (int)(color.getBlue() * 255));
     }
 
+    public static Color grayScale(Color color) {
+        final double r = 0.30 * color.getRed();
+        final double g = 0.59 * color.getGreen();
+        final double b = 0.11 * color.getBlue();
+
+        final int gray = (int)Math.round(255 * (r + g + b));
+
+        return Color.grayRgb(gray);
+    }
+
+
     // TODO Fix la fonction ptdr
     public static ArrayList<Color> toGrayCours(Collection<Color> collection){
         int z;
         ArrayList<Color> grayList = new ArrayList<>();
         for (Color c: collection) {
-            System.out.println((double)(c.getRed()*0.3));
-            System.out.println((double)(c.getGreen()*0.59));
-            System.out.println((double)(c.getBlue()*0.11));
             z = (int)((c.getRed()*0.3 + c.getGreen()*0.59 + c.getBlue()*0.11)*255);
             grayList.add(Color.rgb(z,z,z));
         }

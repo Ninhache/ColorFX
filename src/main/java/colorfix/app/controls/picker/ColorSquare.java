@@ -1,10 +1,12 @@
 package colorfix.app.controls.picker;
 
+import colorfix.app.ExtendedColor;
 import colorfix.app.util.Assets;
 import colorfix.app.util.ColorUtil;
 import colorfix.app.util.Maths;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleExpression;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +33,16 @@ public class ColorSquare extends ColorSquareAbstract {
     final Insets INSETS = new Insets(HALF_CURSOR_SIZE);
 
     public ColorSquare() {
+        this(Color.RED);
+    }
+
+    public ColorSquare(Color color) {
+        this(new ExtendedColor(color));
+    }
+
+    public ColorSquare(ExtendedColor color) {
+        super(color);
+
         getStylesheets().add(Assets.getAssetPath("/color-picker.css"));
         getStyleClass().add("color-picker");
 
@@ -121,6 +133,8 @@ public class ColorSquare extends ColorSquareAbstract {
         // Vertical
         DoubleExpression squareHProp = brightnessOverlay.heightProperty().subtract(CURSOR_SIZE);
         colorSquareIndicator.layoutYProperty().bind(Bindings.subtract(1, brightProp).multiply(squareHProp));
+
+        colorBarIndicator.layoutYProperty().addListener(e -> redraw());
     }
 
     private Background getBrightnessBackground() {
@@ -161,13 +175,25 @@ public class ColorSquare extends ColorSquareAbstract {
 
     @Override
     protected void redraw() {
-        saturationOverlay.setBackground(getSaturationBackground(hueProperty().get()));
+        double hue = 0;
 
-        Color color = Color.hsb(hueProperty().get(), 1.0, 1.0);
+        try {
+            hue = hueProperty().get();
+        } catch (NullPointerException e) {
+            hue = 0;
+        }
+
+        if (saturationOverlay != null) {
+            saturationOverlay.setBackground(getSaturationBackground(hue));
+        }
+
+        Color color = Color.hsb(hue, 1.0, 1.0);
 
         String hex = ColorUtil.tohexCode(color);
 
-        colorBarIndicator.setStyle("-fx-border-color: " + hex + ";");
+        if (colorBarIndicator != null) {
+            colorBarIndicator.setStyle("-fx-border-color: " + hex + ";");
+        }
     }
 
 
@@ -177,10 +203,10 @@ public class ColorSquare extends ColorSquareAbstract {
         double h = colorBar.getHeight();
 
         // LERP : Linear intERPolation
-        double lerp = Maths.clamp(e.getY(), HALF_CURSOR_SIZE, h - HALF_CURSOR_SIZE) - HALF_CURSOR_SIZE;
+        double lerp = Maths.clamp(e.getY(), HALF_CURSOR_SIZE, h - HALF_CURSOR_SIZE - 1) - HALF_CURSOR_SIZE;
         lerp = lerp / (h - CURSOR_SIZE);
 
-        hueProperty().set(360.0 * lerp);
+        hueProperty().set(lerp * 360.0);
     }
 
     final double SCROLL_FACTOR = 0.05 * 360.0;

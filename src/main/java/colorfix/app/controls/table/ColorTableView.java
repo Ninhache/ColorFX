@@ -46,7 +46,7 @@ public class ColorTableView extends TableView<Color> {
         columnCMYK.visibleProperty().bind(cmykVisible);
         columnHSB.visibleProperty().bind(hsbVisible);
 
-        ActionsColumn columnAction = new ActionsColumn();
+        EditActionsColumn columnAction = new EditActionsColumn();
 
         getColumns().addAll(columnThumbnail, columnHex, columnRGB, columnCMYK, columnHSB, columnAction);
         

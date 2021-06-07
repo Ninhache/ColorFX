@@ -1,15 +1,22 @@
 package colorfix.app.controls.table.columns;
 
+import colorfix.app.util.ColorUtil;
 import colorfix.app.util.TableColumnUtil;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
-public class ActionsColumn extends TableColumn<Color, Void> {
-    public ActionsColumn(){
+public class CopyActionsColumn extends TableColumn<Color, Void> {
+
+    private final Clipboard clipboard = Clipboard.getSystemClipboard();
+    private final ClipboardContent content = new ClipboardContent();
+
+    public CopyActionsColumn(){
         super("Actions");
 
         TableColumnUtil.setMinWidth(this, 100);
@@ -29,13 +36,14 @@ public class ActionsColumn extends TableColumn<Color, Void> {
         private final Button BUTTON;
 
         public ActionCell() {
-            BUTTON = new Button("Supprimer");
+            BUTTON = new Button("Copier");
             BUTTON.setOnAction(this::onButtonClicked);
             BUTTON.prefWidthProperty().bind(widthProperty());
         }
 
         private void onButtonClicked(ActionEvent e) {
-            getTableView().getItems().remove(getIndex());
+            content.putString(ColorUtil.tohexCode(getTableView().getItems().get(getIndex())));
+            clipboard.setContent(content);
         }
 
         @Override
