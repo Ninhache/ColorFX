@@ -284,7 +284,7 @@ public class MainStage extends ExtendedStage {
 
     private void copy(ActionEvent e){
         if(!colorTable.getSelectionModel().isEmpty()){
-            System.out.println(ColorUtil.tohexCode( colorTable.getSelectionModel().getSelectedItem()));
+           // System.out.println(ColorUtil.tohexCode( colorTable.getSelectionModel().getSelectedItem()));
             content.putString(ColorUtil.tohexCode( colorTable.getSelectionModel().getSelectedItem()));
             clipboard.setContent(content);
         }

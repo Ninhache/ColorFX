@@ -14,7 +14,7 @@ public class ColorThumbnailColumn extends TableColumn<Color, Canvas> {
         setCellValueFactory(this::getCellValue);
 
         TableColumnUtil.setMinWidth(this, 75);
-        TableColumnUtil.setCommonBehavior(this, true, true, true);
+        TableColumnUtil.setCommonBehavior(this, true, false, true);
 
         setHeaderStyle();
     }
