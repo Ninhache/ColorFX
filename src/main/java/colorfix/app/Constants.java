@@ -1,8 +1,5 @@
 package colorfix.app;
 
-import java.util.ArrayList;
-
-import colorfix.app.util.Assets;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 
@@ -17,13 +14,10 @@ public class Constants {
 
     public static final Image APP_ICON = new Image("/handidoge.png");
     public static final Image APP_ICON_ERROR = new Image("/handidogeError.png");
-    
-//    ArrayList<FileChooser.ExtensionFilter> filters = new ArrayList<>();
-    
-    
+
     public static final FileChooser.ExtensionFilter[] FILTERS = new FileChooser.ExtensionFilter[]{
-    		new FileChooser.ExtensionFilter("Fichier couleurs (*.color)", "*.color"),
-			new FileChooser.ExtensionFilter("Fichier texte (*.txt)", "*.txt"),
-			new FileChooser.ExtensionFilter("Tous les fichiers (*)", "*"),
+    	new FileChooser.ExtensionFilter("Fichier couleurs (*.color)", "*.color"),
+		new FileChooser.ExtensionFilter("Fichier texte (*.txt)", "*.txt"),
+		new FileChooser.ExtensionFilter("Tous les fichiers (*)", "*"),
     };
 }

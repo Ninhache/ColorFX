@@ -40,7 +40,7 @@ public class ColorPickerStage extends ExtendedStage {
         color = new ExtendedColor(c);
 
         picker.colorProperty().bindBidirectional(color.colorProperty());
-        sliders.COLORProperty().bindBidirectional(color.colorProperty());
+        sliders.colorProperty().bindBidirectional(color.colorProperty());
 
         picker.prefHeightProperty().bind(root.heightProperty());
         picker.prefWidthProperty().bind(picker.prefHeightProperty());

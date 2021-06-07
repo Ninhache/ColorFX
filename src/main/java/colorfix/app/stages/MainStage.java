@@ -10,6 +10,7 @@ import colorfix.app.controls.StyledScene;
 import colorfix.app.controls.table.ActionLink;
 import colorfix.app.controls.table.ColorTableView;
 import colorfix.app.controls.table.TablePlaceholder;
+import colorfix.app.stages.dialogs.ColorChooserDialog;
 import colorfix.app.util.ColorUtil;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
@@ -67,7 +68,6 @@ public class MainStage extends ExtendedStage {
         removeAllBtn.setId("toolbarButton");
         aboutBtn.setId("toolbarButton");
 
-
         menuSpacer = new Region();
         HBox.setHgrow(menuSpacer, Priority.ALWAYS);
 
@@ -98,7 +98,6 @@ public class MainStage extends ExtendedStage {
         colorTable.cmykVisibleProperty().bind(showCmykColumn.selectedProperty());
 
         //calibrateBtn.setDisable(true);
-
 
         addColorLink = new ActionLink("Ajouter une couleur", this::onAddClicked);
         openFileLink = new ActionLink("Charger des couleurs depuis un fichier");
@@ -136,7 +135,11 @@ public class MainStage extends ExtendedStage {
     }
 
     private void onAddClicked(ActionEvent e) {
-        System.out.println("ADD");
+        Color c = ColorChooserDialog.open();
+
+        if (c != null) {
+            colorTable.getItems().add(c);
+        }
     }
 
     private void onRemoveAllClicked(ActionEvent e) {
@@ -169,7 +172,7 @@ public class MainStage extends ExtendedStage {
         }
     }
 
-    private void onImportClicked(ActionEvent e){
+    private void onImportClicked(ActionEvent e) {
     	Boolean importSucces = false;
         file = fileChooser.showOpenDialog(this);
         ArrayList<Color> list = new ArrayList<>();

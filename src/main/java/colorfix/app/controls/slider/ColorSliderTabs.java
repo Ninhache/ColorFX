@@ -36,7 +36,7 @@ public class ColorSliderTabs extends TabPane {
         color.refresh();
     }
 
-    public SimpleObjectProperty<Color> COLORProperty() {
+    public SimpleObjectProperty<Color> colorProperty() {
         return COLOR.colorProperty();
     }
 }
