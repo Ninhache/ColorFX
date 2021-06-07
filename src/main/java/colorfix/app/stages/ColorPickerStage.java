@@ -4,6 +4,8 @@ import colorfix.app.ExtendedColor;
 import colorfix.app.controls.StyledScene;
 import colorfix.app.controls.picker.ColorSquare;
 import colorfix.app.controls.slider.ColorSliderTabs;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -23,17 +25,22 @@ public class ColorPickerStage extends ExtendedStage {
 
     public ColorPickerStage(Color c) {
         root = new HBox();
-        root.setSpacing(8);
+        root.setSpacing(0);
 
         picker = new ColorSquare();
         sliders = new ColorSliderTabs();
 
-        root.getChildren().addAll(picker, sliders);
+        Tab pickerTab = new Tab("Couleur", picker);
+        pickerTab.setClosable(false);
+        TabPane pickerPane = new TabPane(pickerTab);
+
+
+        root.getChildren().addAll(pickerPane, sliders);
 
         color = new ExtendedColor(c);
 
         picker.colorProperty().bindBidirectional(color.colorProperty());
-        sliders.colorProperty().bindBidirectional(color.colorProperty());
+        sliders.COLORProperty().bindBidirectional(color.colorProperty());
 
         picker.prefHeightProperty().bind(root.heightProperty());
         picker.prefWidthProperty().bind(picker.prefHeightProperty());

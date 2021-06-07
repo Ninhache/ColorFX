@@ -1,5 +1,6 @@
 package colorfix.app.controls.picker;
 
+import colorfix.app.ExtendedColor;
 import colorfix.app.util.Assets;
 import colorfix.app.util.ColorUtil;
 import colorfix.app.util.Maths;
@@ -31,6 +32,16 @@ public class ColorSquare extends ColorSquareAbstract {
     final Insets INSETS = new Insets(HALF_CURSOR_SIZE);
 
     public ColorSquare() {
+        this(Color.RED);
+    }
+
+    public ColorSquare(Color color) {
+        this(new ExtendedColor(color));
+    }
+
+    public ColorSquare(ExtendedColor color) {
+        super(color);
+
         getStylesheets().add(Assets.getAssetPath("/color-picker.css"));
         getStyleClass().add("color-picker");
 
@@ -103,7 +114,7 @@ public class ColorSquare extends ColorSquareAbstract {
         //HBox.setHgrow(border, Priority.ALWAYS);
         //VBox.setVgrow(border, Priority.ALWAYS);
 
-        DoubleExpression hueProp = hueProperty().divide(360);
+        DoubleExpression hueProp = hueProperty().divide(360.0);
         DoubleExpression satProp = saturationProperty();
         DoubleExpression brightProp = brightnessProperty();
 

@@ -29,7 +29,6 @@ public class ColorSlider extends HBox {
     private boolean localChange = false;
 
     public ColorSlider(ColorComponent component) {
-
         value = new SimpleNormalizedProperty(0, component.equals(ColorComponent.HUE) ? 360 : 1);
 
         getStylesheets().add(Assets.getAssetPath("/color-sliders.css"));
@@ -68,6 +67,9 @@ public class ColorSlider extends HBox {
     }
 
     private void onValueChanged(Observable observable) {
+        //String s = String.format("%s\t = %f", getComponent().name(), value.get());
+        //System.out.println(s);
+
         if (!localChange) {
             slider.setValue(value.getNormalized() * 100.0);
         }

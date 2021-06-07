@@ -1,5 +1,6 @@
 package colorfix.app;
 
+import colorfix.app.stages.ColorChooserStage;
 import colorfix.app.stages.ColorPickerStage;
 import colorfix.app.stages.TestSliderTabsStage;
 import javafx.application.Application;
@@ -12,7 +13,7 @@ public class ColorFX extends Application {
     @Override
     public void start(Stage stage) {
         services = getHostServices();
-        var mainStage = new ColorPickerStage();
+        var mainStage = new ColorChooserStage();
 
         mainStage.show();
     }

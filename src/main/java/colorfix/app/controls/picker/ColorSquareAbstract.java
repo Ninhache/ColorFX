@@ -16,8 +16,8 @@ public abstract class ColorSquareAbstract extends HBox {
     private SimpleDoubleProperty satProp = new SimpleDoubleProperty(0);
     private SimpleDoubleProperty brightProp = new SimpleDoubleProperty(0);
 
-    protected ColorSquareAbstract() {
-        color = new ExtendedColor(Color.BLACK);
+    protected ColorSquareAbstract(ExtendedColor color) {
+        this.color = color;
 
         colorProperty().addListener(this::onColorChanged);
         hueProperty().addListener(this::onHueChanged);
