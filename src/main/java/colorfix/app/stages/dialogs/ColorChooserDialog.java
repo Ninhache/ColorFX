@@ -6,6 +6,7 @@ import colorfix.app.controls.StyledScene;
 import colorfix.app.controls.picker.ColorSquare;
 import colorfix.app.controls.slider.ColorSliderTabs;
 import colorfix.app.stages.ExtendedStage;
+import colorfix.app.util.Assets;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -65,13 +66,15 @@ public class ColorChooserDialog extends ExtendedStage {
         Button confirmButton = new Button("Sélectionner");
         confirmButton.setDefaultButton(true);
         confirmButton.setOnAction(this::onConfirmClicked);
+        confirmButton.getStyleClass().addAll("pill-button", "left-pill");
 
         Button cancelButton = new Button("Annuler");
         cancelButton.setOnAction(this::onCancelClicked);
+        cancelButton.getStyleClass().addAll("pill-button", "right-pill");
 
         HBox buttonsRoot = new HBox(confirmButton, cancelButton);
+        buttonsRoot.getStylesheets().add(Assets.getAssetPath("/pill-button.css"));
         buttonsRoot.setAlignment(Pos.CENTER_RIGHT);
-        buttonsRoot.setSpacing(4);
         buttonsRoot.setPadding(thumbPane.getPadding());
 
         sliderRoot.getChildren().addAll(sliders, buttonsRoot);

@@ -1,9 +1,11 @@
 package colorfix.app.controls.table.columns;
 
 import colorfix.app.stages.dialogs.ColorChooserDialog;
+import colorfix.app.util.Assets;
 import colorfix.app.util.TableColumnUtil;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -36,21 +38,26 @@ public class EditActionsColumn extends TableColumn<Color, Void> {
 
         public ActionCell() {
             PANE = new HBox();
+            PANE.setAlignment(Pos.CENTER);
             PANE.setSpacing(0);
-            PANE.setPadding(Insets.EMPTY);
+            PANE.setPadding(new Insets(0, 2, 0, 2));
             PANE.prefWidthProperty().bind(widthProperty());
 
-            var halfWidthProp = PANE.widthProperty().divide(2);
+            var padding = PANE.getPadding();
+            var halfWidthProp = PANE.widthProperty().subtract(padding.getLeft() + padding.getRight()).divide(2);
 
             EDIT_BUTTON = new Button("Modifier");
             EDIT_BUTTON.setOnAction(this::onEditButtonClicked);
             EDIT_BUTTON.prefWidthProperty().bind(halfWidthProp);
+            EDIT_BUTTON.getStyleClass().addAll("pill-button", "left-pill");
 
             DELETE_BUTTON = new Button("Supprimer");
             DELETE_BUTTON.setOnAction(this::onDeleteButtonClicked);
             DELETE_BUTTON.prefWidthProperty().bind(halfWidthProp);
+            DELETE_BUTTON.getStyleClass().addAll("pill-button", "right-pill");
+            DELETE_BUTTON.setStyle("-fx-base: firebrick;");
 
-
+            PANE.getStylesheets().add(Assets.getAssetPath("/pill-button.css"));
             PANE.getChildren().addAll(EDIT_BUTTON, DELETE_BUTTON);
         }
 
