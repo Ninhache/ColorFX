@@ -1,5 +1,7 @@
 package colorfix.app.controls.table.columns;
 
+import colorfix.app.controls.ColorThumbnail;
+import colorfix.app.stages.dialogs.ColorChooserDialog;
 import colorfix.app.util.TableColumnUtil;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -8,12 +10,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TableColumn;
 import javafx.scene.paint.Color;
 
-public class ColorThumbnailColumn extends TableColumn<Color, Canvas> {
+public class ColorThumbnailColumn extends TableColumn<Color, ColorThumbnail> {
     public ColorThumbnailColumn() {
         super("Couleur");
         setCellValueFactory(this::getCellValue);
 
-        TableColumnUtil.setMinWidth(this, 75);
+        TableColumnUtil.setMinWidth(this, 85);
         TableColumnUtil.setCommonBehavior(this, true, true, true);
 
         setHeaderStyle();
@@ -23,18 +25,14 @@ public class ColorThumbnailColumn extends TableColumn<Color, Canvas> {
         setStyle("-fx-table-cell-border-color: lightgray;");
     }
 
-    protected ObservableValue<Canvas> getCellValue(CellDataFeatures<Color, Canvas> cell) {
+    protected ObservableValue<ColorThumbnail> getCellValue(CellDataFeatures<Color, ColorThumbnail> cell) {
         Color color = cell.getValue();
-        double size = 20;
 
-        Canvas canvas = new Canvas((getPrefWidth()-5), size);
+        ColorThumbnail thumb = new ColorThumbnail(color);
 
-        canvas.widthProperty().bind(widthProperty());
-        canvas.widthProperty().addListener(x -> drawCanvas(canvas, color));
+        thumb.prefWidthProperty().bind(widthProperty());
 
-        drawCanvas(canvas, color);
-
-        return new SimpleObjectProperty<Canvas>(canvas);
+        return new SimpleObjectProperty<ColorThumbnail>(thumb);
     }
 
     private void drawCanvas(Canvas canvas, Color color) {

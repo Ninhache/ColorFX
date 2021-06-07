@@ -6,6 +6,7 @@ import colorfix.app.util.ColorUtil;
 import colorfix.app.util.Maths;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleExpression;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -174,13 +175,25 @@ public class ColorSquare extends ColorSquareAbstract {
 
     @Override
     protected void redraw() {
-        saturationOverlay.setBackground(getSaturationBackground(hueProperty().get()));
+        double hue = 0;
 
-        Color color = Color.hsb(hueProperty().get(), 1.0, 1.0);
+        try {
+            hue = hueProperty().get();
+        } catch (NullPointerException e) {
+            hue = 0;
+        }
+
+        if (saturationOverlay != null) {
+            saturationOverlay.setBackground(getSaturationBackground(hue));
+        }
+
+        Color color = Color.hsb(hue, 1.0, 1.0);
 
         String hex = ColorUtil.tohexCode(color);
 
-        colorBarIndicator.setStyle("-fx-border-color: " + hex + ";");
+        if (colorBarIndicator != null) {
+            colorBarIndicator.setStyle("-fx-border-color: " + hex + ";");
+        }
     }
 
 

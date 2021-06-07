@@ -50,6 +50,16 @@ public class ColorThumbnail extends Pane {
 
         graphics.setFill(ColorUtil.grayScale(c));
         graphics.fillRect(halfWidth,0,halfWidth, getHeight());
+
+        graphics.setLineWidth(1);
+        graphics.setStroke(Color.BLACK);
+        graphics.strokeRect(0, 0, getWidth(), getHeight());
+
+        graphics.setStroke(Color.WHITE);
+        graphics.strokeRect(1, 1, getWidth() - 2, getHeight() - 2);
+
+        graphics.setStroke(Color.BLACK);
+        graphics.strokeRect(2, 2, getWidth() - 4, getHeight() - 4);
     }
 
     @Override
