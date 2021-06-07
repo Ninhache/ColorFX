@@ -105,6 +105,11 @@ public class MainStage extends ExtendedStage {
         colorTable.cmykVisibleProperty().bind(showCmykColumn.selectedProperty());
         colorTable.rgbVisibleProperty().bind(showCmykColumn.selectedProperty().not());
 
+        colorTable
+            .getRGBColumn()
+            .prefWidthProperty()
+            .bindBidirectional(colorTable.getCMYKColumn().prefWidthProperty());
+
         changed.setValue(true);
 
         addColorLink = new ActionLink("Ajouter une couleur", this::onAddClicked);
@@ -199,10 +204,6 @@ public class MainStage extends ExtendedStage {
         }
     }
 
-    private void mayWork(KeyEvent e) {
-        onImportClicked(new ActionEvent());
-    }
-
     private void onAddClicked(ActionEvent e) {
         Color c = ColorChooserDialog.open();
 
@@ -212,8 +213,6 @@ public class MainStage extends ExtendedStage {
     }
 
     private void onRemoveAllClicked(ActionEvent e) {
-        System.out.println("REMOVE");
-        //colorTable.getItems().removeAll(colorTable.getSelectionModel().getSelectedItem());
         colorTable.getItems().removeAll(colorTable.getItems());
     }
 

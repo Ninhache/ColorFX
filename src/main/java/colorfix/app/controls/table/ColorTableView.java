@@ -2,7 +2,7 @@ package colorfix.app.controls.table;
 
 import colorfix.app.controls.table.columns.*;
 import colorfix.app.enums.ColorSpace;
-import colorfix.app.stages.TestStage;
+import colorfix.app.stages.dialogs.ColorChooserDialog;
 import colorfix.app.util.ColorUtil;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -21,23 +21,22 @@ public class ColorTableView extends TableView<Color> {
     private SimpleBooleanProperty rgbVisible = new SimpleBooleanProperty(true);
     private SimpleBooleanProperty cmykVisible = new SimpleBooleanProperty(false);
     private SimpleBooleanProperty hsbVisible = new SimpleBooleanProperty(true);
-    ContextMenu contextMenu;
-    final Clipboard clipboard = Clipboard.getSystemClipboard();
-	final ClipboardContent content = new ClipboardContent();
+
+    private ContextMenu contextMenu;
+    private final Clipboard clipboard = Clipboard.getSystemClipboard();
+    private final ClipboardContent content = new ClipboardContent();
+
+	private final ColorSpaceColumn columnRGB, columnHSB, columnCMYK;
 
 
     public ColorTableView() {
         ColorThumbnailColumn columnThumbnail = new ColorThumbnailColumn();
 
-        //ColorComponentColumn columnRed = new ColorComponentColumn(ColorComponent.RED);
-        //ColorComponentColumn columnGreen = new ColorComponentColumn(ColorComponent.GREEN);
-        //ColorComponentColumn columnBlue = new ColorComponentColumn(ColorComponent.BLUE);
-
         HexadecimalValueColumn columnHex = new HexadecimalValueColumn();
 
-        ColorSpaceColumn columnRGB = new ColorSpaceColumn(ColorSpace.RGB);
-        ColorSpaceColumn columnHSB = new ColorSpaceColumn(ColorSpace.HSB);
-        ColorSpaceColumn columnCMYK = new ColorSpaceColumn(ColorSpace.CMYK);
+        columnRGB = new ColorSpaceColumn(ColorSpace.RGB);
+        columnHSB = new ColorSpaceColumn(ColorSpace.HSB);
+        columnCMYK = new ColorSpaceColumn(ColorSpace.CMYK);
         
         setOnMouseClicked(this::onMouseClicked);
 
@@ -52,27 +51,24 @@ public class ColorTableView extends TableView<Color> {
         
         /// Menu contextuel
         contextMenu = new ContextMenu();
-        
-        MenuItem menuItemMod = new MenuItem("Modify");
-        menuItemMod.setOnAction(this::onItemModify);
-        
-        MenuItem menuItemAdd = new MenuItem("Add");
+
+        MenuItem menuItemAdd = new MenuItem("Ajouter");
         menuItemAdd.setOnAction(this::onItemAdd);
-        
-        MenuItem menuItemDel = new MenuItem("Delete");
+
+        MenuItem menuItemMod = new MenuItem("Modifier");
+        menuItemMod.setOnAction(this::onItemModify);
+
+        MenuItem menuItemDel = new MenuItem("Supprimer");
         menuItemDel.setOnAction(this::onItemDelete);
         
-        MenuItem menuItemCpy = new MenuItem("Copier");
+        MenuItem menuItemCpy = new MenuItem("Copier code hexadécimal");
         menuItemCpy.setOnAction(this::onItemCopy);
         
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
         SeparatorMenuItem separatorMenuItem3 = new SeparatorMenuItem();
         
-        contextMenu.getItems().addAll(menuItemMod,separatorMenuItem, menuItemAdd, separatorMenuItem2,menuItemDel,separatorMenuItem3,menuItemCpy);
-
-
-        
+        contextMenu.getItems().addAll(menuItemAdd,separatorMenuItem, menuItemMod, separatorMenuItem2, menuItemDel, separatorMenuItem3, menuItemCpy);
     }
     
     private void onMouseClicked(MouseEvent e) {
@@ -84,13 +80,24 @@ public class ColorTableView extends TableView<Color> {
     }
     
     private void onItemAdd(ActionEvent e) {
-    	TestStage ok = new TestStage();
-    	ok.show();
-    	System.out.println("add");
+        Color c = ColorChooserDialog.open();
+
+        if (c != null) {
+            this.getItems().add(c);
+        }
     }
     
     private void onItemModify(ActionEvent e) {
-    	int index = getFocusModel().getFocusedCell().getRow();
+        int index = getSelectionModel().getFocusedIndex();
+
+        Color oldCol = getItems().get(index);
+        Color newCol = ColorChooserDialog.open(oldCol);
+
+        if (newCol != null) {
+            getItems().set(index, newCol);
+        }
+
+    	//int index = getFocusModel().getFocusedCell().getRow();
     	
     	System.out.println(getItems().get(index).toString());
     }
@@ -104,6 +111,19 @@ public class ColorTableView extends TableView<Color> {
     	int index = getFocusModel().getFocusedCell().getRow();
     	content.putString(ColorUtil.tohexCode(getItems().get(index)));
     	clipboard.setContent(content);	
+    }
+
+    // === COLUMNS ===
+    public ColorSpaceColumn getRGBColumn() {
+        return columnRGB;
+    }
+
+    public ColorSpaceColumn getHSBColumn() {
+        return columnHSB;
+    }
+
+    public ColorSpaceColumn getCMYKColumn() {
+        return columnCMYK;
     }
 
     // === PROPRIETES ===

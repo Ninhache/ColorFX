@@ -26,7 +26,7 @@ public class ColorSliderTabs extends TabPane {
         this.COLOR = color;
 
         for (ColorSpace cSpace : ColorSpace.values()) {
-            if (cSpace == ColorSpace.HSB) continue;
+            if (cSpace != ColorSpace.RGB) continue;
 
             ColorSpaceSliderTab tab = new ColorSpaceSliderTab(color, cSpace);
 

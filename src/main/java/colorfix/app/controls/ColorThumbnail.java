@@ -7,7 +7,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 public class ColorThumbnail extends Pane {
     protected final Canvas canvas;
@@ -48,7 +47,7 @@ public class ColorThumbnail extends Pane {
         graphics.setFill(c);
         graphics.fillRect(0,0,halfWidth, getHeight());
 
-        graphics.setFill(ColorUtil.grayScale(c));
+        graphics.setFill(ColorUtil.grayScaleColor(c));
         graphics.fillRect(halfWidth,0,halfWidth, getHeight());
 
         graphics.setLineWidth(1);

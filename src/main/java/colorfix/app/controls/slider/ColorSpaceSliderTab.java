@@ -69,7 +69,7 @@ public class ColorSpaceSliderTab extends Tab {
         var slideProp = slider.valueProperty();
         var colorProp = c.value01Property(COLOR);
 
-        colorProp.bindBidirectional(slideProp);
+        slideProp.bindBidirectional(colorProp);
     }
 
     public SimpleObjectProperty<Color> colorProperty() {
