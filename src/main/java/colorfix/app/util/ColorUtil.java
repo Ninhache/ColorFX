@@ -37,6 +37,7 @@ public class ColorUtil {
         }
         return grayList;
     }
+
     
     public static boolean isAnHexcode(String hex) {
         String res = hex.replaceAll("\\\\n", "");

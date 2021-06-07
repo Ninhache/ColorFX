@@ -3,6 +3,7 @@ package colorfix.app.stages;
 import colorfix.app.Constants;
 import colorfix.app.controls.CopyTableView;
 import colorfix.app.controls.StyledScene;
+import colorfix.app.util.ColorAdjust;
 import colorfix.app.util.ColorUtil;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class CalibrateStage extends ExtendedStage{
     private Button  exportBtn;
@@ -38,8 +40,7 @@ public class CalibrateStage extends ExtendedStage{
 
         BorderPane root = new BorderPane();
         ToolBar menu = new ToolBar();
-        
-        
+
         exportBtn = new Button("Exporter");
         exportBtn.setOnAction(this::onExportClicked);
 
@@ -56,7 +57,9 @@ public class CalibrateStage extends ExtendedStage{
 
         root.setCenter(colorTable);
 
-        ArrayList<Color> newCollec = ColorUtil.toGrayNeo2(collection);
+        //ArrayList<Color> newCollec = ColorUtil.toGrayNeo2(collection);
+        List<Color> newCollec = ColorAdjust.autoAdjust(collection);
+
         colorTable.getItems().addAll(newCollec);
         
         if(isCmykVisible) {
