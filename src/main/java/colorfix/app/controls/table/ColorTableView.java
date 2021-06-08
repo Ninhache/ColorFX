@@ -4,7 +4,12 @@ import colorfix.app.controls.table.columns.*;
 import colorfix.app.enums.ColorSpace;
 import colorfix.app.stages.dialogs.ColorChooserDialog;
 import colorfix.app.util.ColorUtil;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -21,6 +26,7 @@ public class ColorTableView extends TableView<Color> {
     private SimpleBooleanProperty rgbVisible = new SimpleBooleanProperty(true);
     private SimpleBooleanProperty cmykVisible = new SimpleBooleanProperty(false);
     private SimpleBooleanProperty hsbVisible = new SimpleBooleanProperty(true);
+    private SimpleBooleanProperty isEmpty = new SimpleBooleanProperty();
 
     private ContextMenu contextMenu;
     private final Clipboard clipboard = Clipboard.getSystemClipboard();
@@ -44,6 +50,7 @@ public class ColorTableView extends TableView<Color> {
         columnRGB.visibleProperty().bind(rgbVisible);
         columnCMYK.visibleProperty().bind(cmykVisible);
         columnHSB.visibleProperty().bind(hsbVisible);
+        
 
         EditActionsColumn columnAction = new EditActionsColumn();
 
@@ -69,6 +76,12 @@ public class ColorTableView extends TableView<Color> {
         SeparatorMenuItem separatorMenuItem3 = new SeparatorMenuItem();
         
         contextMenu.getItems().addAll(menuItemAdd,separatorMenuItem, menuItemMod, separatorMenuItem2, menuItemDel, separatorMenuItem3, menuItemCpy);
+        
+        itemsProperty().addListener(e -> {
+        	getItems().addListener(this::onTableModified);
+        });
+        
+        setItems(FXCollections.observableArrayList());
     }
     
     private void onMouseClicked(MouseEvent e) {
@@ -85,6 +98,11 @@ public class ColorTableView extends TableView<Color> {
         if (c != null) {
             this.getItems().add(c);
         }
+    }
+    
+    private void onTableModified(ListChangeListener.Change<? extends Color> c) {
+    	System.out.println("ALORS C VIDE ?" + isEmpty.get());
+    	isEmpty.set(getItems().isEmpty());
     }
     
     private void onItemModify(ActionEvent e) {
@@ -111,6 +129,12 @@ public class ColorTableView extends TableView<Color> {
     	int index = getFocusModel().getFocusedCell().getRow();
     	content.putString(ColorUtil.tohexCode(getItems().get(index)));
     	clipboard.setContent(content);	
+    }
+    
+    // === PROPERTY ===
+    
+    public ReadOnlyBooleanProperty isEmptyProperty() {
+    	return ReadOnlyBooleanProperty.readOnlyBooleanProperty(isEmpty);
     }
 
     // === COLUMNS ===

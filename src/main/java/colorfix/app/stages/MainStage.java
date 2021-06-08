@@ -102,8 +102,6 @@ public class MainStage extends ExtendedStage {
 
         colorTable = new ColorTableView();
 
-        colorTable.getItems().addListener((this::onTableModified));
-
         colorTable.cmykVisibleProperty().bind(showCmykColumn.selectedProperty());
         colorTable.rgbVisibleProperty().bind(showCmykColumn.selectedProperty().not());
 
@@ -114,7 +112,9 @@ public class MainStage extends ExtendedStage {
 
         changed.setValue(true);
 
-        exportBtn.disableProperty().bind(changed.booleanProperty(changed).not());
+        exportBtn.disableProperty().bind(colorTable.isEmptyProperty());
+        calibrateBtn.disableProperty().bind(colorTable.isEmptyProperty());
+        removeAllBtn.disableProperty().bind(colorTable.isEmptyProperty());
 
         addColorLink = new ActionLink("Ajouter une couleur", this::onAddClicked);
         openFileLink = new ActionLink("Charger des couleurs depuis un fichier");
@@ -281,12 +281,6 @@ public class MainStage extends ExtendedStage {
              colorTable.getItems().addAll(list);
              importSucces = false;
         }
-    }
-
-    private void onTableModified(ListChangeListener.Change<? extends Color> c) {
-
-    	System.out.println(colorTable.getItems().size());
-    	calibrateBtn.setDisable(colorTable.getItems().size() == 0);
     }
 
     private void copy(ActionEvent e){
