@@ -21,6 +21,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -29,7 +30,7 @@ import javafx.stage.FileChooser;
 /** Fenêtre principale du logiciel **/
 public class MainStage extends ExtendedStage {
     private final Button addBtn, importBtn, exportBtn, removeAllBtn, questionMark ,aboutBtn, calibrateBtn;
-    private final Region menuSpacer;
+    private final Region menuSpacer, menuSpacer2;
     private final ColorTableView colorTable;
 
     private final CheckBox showCmykColumn;
@@ -56,26 +57,24 @@ public class MainStage extends ExtendedStage {
         BorderPane root = new BorderPane();
         ToolBar menu = new ToolBar();
 
-        addBtn = new Button("Ajouter");
-        removeAllBtn = new Button("Tout supprimer");
+        addBtn = new Button("Ajouter", Constants.loadImage(Constants.ADD_ICON));
+        removeAllBtn = new Button("Tout supprimer", Constants.loadImage(Constants.DEL_ICON));
         aboutBtn = new Button("À propos");
 
         addBtn.setAlignment(Pos.BASELINE_RIGHT);
-        importBtn = new Button("Importer");
+        importBtn = new Button("Importer", Constants.loadImage(Constants.LOAD_ICON));
         importBtn.setOnAction(this::onImportClicked);
 
-        //addBtn.setStyle("-fx-base: yellowgreen;");
-        //removeAllBtn.setStyle("-fx-base: #de5454;");
         aboutBtn.setStyle("-fx-base: lightgray;");
 
         addBtn.setId("toolbarButton");
         removeAllBtn.setId("toolbarButton");
         aboutBtn.setId("toolbarButton");
 
-        exportBtn = new Button("Exporter");
+        exportBtn = new Button("Exporter", Constants.loadImage(Constants.EXP_ICON));
         exportBtn.setOnAction(this::onExportClicked);
 
-        questionMark = new Button("?");
+        questionMark = new Button("",Constants.loadImage(Constants.QUES_ICON));
         questionMark.setOnAction(this::onQuestion);
 
         menuSpacer = new Region();
@@ -83,15 +82,18 @@ public class MainStage extends ExtendedStage {
 
         showCmykColumn = new CheckBox("Couleurs d'imprimante (CMJN)");
 
-        menu.getItems().addAll(addBtn, importBtn, exportBtn, removeAllBtn, showCmykColumn, menuSpacer, questionMark,aboutBtn);
+        menu.getItems().addAll(addBtn, removeAllBtn, showCmykColumn, menuSpacer, questionMark,aboutBtn);
         menu.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         root.setTop(menu);
 
-        calibrateBtn = new Button("Calibrer les couleurs");
+        calibrateBtn = new Button("Calibrer les couleurs", Constants.loadImage(Constants.REC_ICON));
         calibrateBtn.setDefaultButton(true);
 
-        HBox bottomButtons = new HBox(calibrateBtn);
-        bottomButtons.setAlignment(Pos.BASELINE_RIGHT);
+        menuSpacer2 = new Region();
+        HBox.setHgrow(menuSpacer2, Priority.ALWAYS);
+
+        HBox bottomButtons = new HBox(importBtn, exportBtn, menuSpacer2, calibrateBtn);
+
         bottomButtons.setPadding(new Insets(8));
         bottomButtons.setSpacing(8);
         bottomButtons.setId("dark");
@@ -111,6 +113,8 @@ public class MainStage extends ExtendedStage {
             .bindBidirectional(colorTable.getCMYKColumn().prefWidthProperty());
 
         changed.setValue(true);
+
+        exportBtn.disableProperty().bind(changed.booleanProperty(changed).not());
 
         addColorLink = new ActionLink("Ajouter une couleur", this::onAddClicked);
         openFileLink = new ActionLink("Charger des couleurs depuis un fichier");
@@ -199,7 +203,7 @@ public class MainStage extends ExtendedStage {
             }catch(IOException ioex){
                 System.out.println(ioex);
             }finally {
-                changed.setValue(false);
+                changed.set(false);
             }
         }
     }
