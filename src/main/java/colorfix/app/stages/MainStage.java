@@ -116,7 +116,7 @@ public class MainStage extends ExtendedStage {
         exportBtn.disableProperty().bind(colorTable.isEmptyProperty());
         calibrateBtn.disableProperty().bind(colorTable.isEmptyProperty());
         removeAllBtn.disableProperty().bind(colorTable.isEmptyProperty());
-
+        
         addColorLink = new ActionLink("Ajouter une couleur", this::onAddClicked);
         openFileLink = new ActionLink("Charger des couleurs depuis un fichier");
         openFileLink.setOnAction(this::onImportClicked);
@@ -126,8 +126,6 @@ public class MainStage extends ExtendedStage {
         colorTable.setPlaceholder(tablePlaceholder);
 
         root.setCenter(colorTable);
-
-        colorTable.getItems().addAll(Color.WHITE, Color.BLACK, Color.SALMON, Color.OLIVEDRAB, Color.rgb(127, 0, 65), Color.WHITESMOKE, Color.FIREBRICK);
 
         // Info-bulles (tooltip)
 

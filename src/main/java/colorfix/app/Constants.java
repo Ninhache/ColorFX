@@ -1,5 +1,6 @@
 package colorfix.app;
 
+import colorfix.app.util.Assets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -16,13 +17,13 @@ public class Constants {
     public static final Image APP_ICON = new Image("/handidoge.png");
     public static final Image APP_ICON_ERROR = new Image("/handidogeError.png");
 
-    public static final Image ADD_ICON = new Image("/addIcon.png");
-    public static final Image COPY_ICON = new Image("/copyIcon.png");
-    public static final Image DEL_ICON = new Image("/delIcon.png");
-    public static final Image EXP_ICON = new Image("/exportIcon.png");
-    public static final Image LOAD_ICON = new Image("/loadIcon.png");
-    public static final Image QUES_ICON = new Image("/questionMarkIcon.png");
-    public static final Image REC_ICON = new Image("/recycleIcon.png");
+    public static final Image ADD_ICON = loadImageRes("/addIcon.png");
+    public static final Image COPY_ICON = loadImageRes("/copyIcon.png");
+    public static final Image DEL_ICON = loadImageRes("/delIcon.png");
+    public static final Image EXP_ICON = loadImageRes("/exportIcon.png");
+    public static final Image LOAD_ICON = loadImageRes("/loadIcon.png");
+    public static final Image QUES_ICON = loadImageRes("/questionMarkIcon.png");
+    public static final Image REC_ICON = loadImageRes("/recycleIcon.png");
 
 
     public static final FileChooser.ExtensionFilter[] FILTERS = new FileChooser.ExtensionFilter[]{
@@ -30,6 +31,11 @@ public class Constants {
 		new FileChooser.ExtensionFilter("Fichier texte (*.txt)", "*.txt"),
 		new FileChooser.ExtensionFilter("Tous les fichiers (*)", "*"),
     };
+    
+    
+    public static Image loadImageRes(String path) {
+    	return new Image(Assets.getAssetPath(path));
+    }
 
     public static final ImageView loadImage(Image src){
         ImageView img = new ImageView(src);

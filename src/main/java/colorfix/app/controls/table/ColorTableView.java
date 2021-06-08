@@ -82,6 +82,8 @@ public class ColorTableView extends TableView<Color> {
         });
         
         setItems(FXCollections.observableArrayList());
+        
+        onTableModified(null);
     }
     
     private void onMouseClicked(MouseEvent e) {
@@ -101,7 +103,6 @@ public class ColorTableView extends TableView<Color> {
     }
     
     private void onTableModified(ListChangeListener.Change<? extends Color> c) {
-    	System.out.println("ALORS C VIDE ?" + isEmpty.get());
     	isEmpty.set(getItems().isEmpty());
     }
     
@@ -114,10 +115,6 @@ public class ColorTableView extends TableView<Color> {
         if (newCol != null) {
             getItems().set(index, newCol);
         }
-
-    	//int index = getFocusModel().getFocusedCell().getRow();
-    	
-    	System.out.println(getItems().get(index).toString());
     }
     
     private void onItemDelete(ActionEvent e) {
