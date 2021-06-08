@@ -140,6 +140,9 @@ public class MainStage extends ExtendedStage {
         aboutBtn.setOnAction(this::onAboutClicked);
         calibrateBtn.setOnAction(this::onCalibrateClicked);
 
+        aboutBtn.prefHeightProperty().bind(questionMark.heightProperty());
+        
+        
         // Déclaration de la scène
         Scene scene = new StyledScene(root);
         setScene(scene);
