@@ -5,6 +5,8 @@ import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
+import colorfix.app.Constants;
+
 /** Affichage de boîtes de dialogue **/
 public final class MessageBox {
 
@@ -33,6 +35,18 @@ public final class MessageBox {
        .get();
     }
 
+    public static ButtonType showDoge(String title, String content) {
+        Alert alert = createAlert(title, content, Alert.AlertType.ERROR);
+        
+        var img = Constants.loadImage(Constants.APP_ICON_ERROR);
+        
+        img.setFitWidth(64);
+        img.setFitHeight(64);
+        
+        alert.setGraphic(img);
+       
+        return alert.showAndWait().get();
+    }
 
     private static Alert createAlert(String title, String content, Alert.AlertType type) {
         Alert alert = new Alert(type);

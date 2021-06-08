@@ -3,12 +3,17 @@ package colorfix.app.stages;
 import colorfix.app.ColorFX;
 import colorfix.app.Constants;
 import colorfix.app.controls.StyledScene;
+import colorfix.app.util.Assets;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -50,13 +55,12 @@ public class AboutStage extends ExtendedStage {
         separatorA = new Separator(Orientation.HORIZONTAL);
         HBox.setHgrow(separatorA, Priority.ALWAYS);
 
-        textZone = new TextArea("Description détaillée du projet ici");
+        //textZone = new TextArea("Description détaillée du projet ici");
+        textZone = new TextArea(Assets.readtextFile("about.txt"));
         textZone.setWrapText(true);
         textZone.setEditable(false);
 
-        textZone.setPrefSize(300, 140);
-
-        //new Label("").setWrapText(true);
+        textZone.setPrefWidth(300);
 
         separatorB = new Separator(Orientation.HORIZONTAL);
         HBox.setHgrow(separatorB, Priority.ALWAYS);
@@ -67,7 +71,7 @@ public class AboutStage extends ExtendedStage {
 
         root.getChildren().addAll(applicationTitle, descriptionContainer, separatorA, textZone, separatorB, closeBtn);
 
-        Scene scene = new StyledScene(root, 500, 250);
+        Scene scene = new StyledScene(root);
         setScene(scene);
         setResizable(false);
         initStyle(StageStyle.UTILITY); // N'avoir que le bouton "fermer" de la fenêtre

@@ -1,0 +1,8 @@
+ColorFX (2020 - 2021)
+Réalisé par ALMEIDA Néo et VANOORENBERGHE Amaury
+
+Projet réalisé dans le cadre du module d'IHM du semestre 2
+Responsable du module: CASIEZ Géry
+Enseignant travaux pratiques: BALOUP Marc
+
+DUT Informatique (IUT A de Villeneuve d'Ascq)

@@ -3,6 +3,7 @@ package colorfix.app.stages;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -142,7 +143,6 @@ public class MainStage extends ExtendedStage {
 
         aboutBtn.prefHeightProperty().bind(questionMark.heightProperty());
         
-        
         // Déclaration de la scène
         Scene scene = new StyledScene(root);
         setScene(scene);
@@ -252,9 +252,10 @@ public class MainStage extends ExtendedStage {
     	Boolean importSucces = false;
 
         file = fileChooser.showOpenDialog(this);
+        int foundColors = 0;
 
         ArrayList<Color> list = new ArrayList<>();
-        if(file != null){
+        if(file != null && file.exists()){
             try {
                 Scanner sc = new Scanner(file);
                 while(sc.hasNext()){
@@ -262,25 +263,22 @@ public class MainStage extends ExtendedStage {
 
                 	if(ColorUtil.isAnHexcode(nextLine)) {
                 		list.add(Color.web(nextLine));
+                		foundColors++;
                 	}else {
-                		throw new Exception();
+                		throw new InvalidParameterException();
                 	}
                 }
                 importSucces = true;
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            } catch (Exception exc) {
-            	if (errorWindow == null || !errorWindow.isShowing()) {
-            		errorWindow = new ErrorStage("Essayez avec un autre fichier");
-            		errorWindow.initOwner(this);
-            		errorWindow.show();
-                } else {
-                	errorWindow.close();
-                	errorWindow = null;
-                }
+            } catch (Throwable exc) {
+            	MessageBox.showDoge("Erreur d'importation", "Le contenu du fichier n'est pas valide !");
+            	importSucces = false;
+            	foundColors = -1;
             }
         }
-        if(importSucces) {
+        
+        if(foundColors == 0) {
+        	MessageBox.showDoge("Erreur d'importation", "Le fichier ne contient pas de couleur importable !");
+        } else if(importSucces) {
         	 colorTable.getItems().removeAll(colorTable.getItems());
              colorTable.getItems().addAll(list);
              importSucces = false;
