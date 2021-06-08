@@ -17,7 +17,7 @@ public class EditActionsColumn extends TableColumn<Color, Void> {
     public EditActionsColumn(){
         super("Actions");
 
-        TableColumnUtil.setMinWidth(this, 160);
+        TableColumnUtil.setMinWidth(this, 200);
         TableColumnUtil.setCommonBehavior(this, true, true, false);
 
         setCellFactory(new ActionCellFactory());

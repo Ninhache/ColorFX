@@ -15,7 +15,7 @@ public class ColorComponentColumn extends TableColumn<Color, String> {
         super(component.toString());
         COLOR_COMPONENT = component;
 
-        TableColumnUtil.setMinWidth(this, 85);
+        TableColumnUtil.setMinWidth(this, 100);
         TableColumnUtil.setCommonBehavior(this, false, false, true);
 
         setCellValueFactory(this::getCellValue);
