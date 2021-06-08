@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project ColorFX with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR file Export Wizard-->
+    <!--ANT 1.7 is required-->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="C:/Users/Amaury/eclipse-workspace"/>
+    <property name="dir.jarfile" value="${dir.buildfile}/build"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/colorfx.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="colorfix.app.ColorFX"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ javafx-controls-13.jar javafx-controls-13-win.jar javafx-graphics-13.jar javafx-graphics-13-win.jar javafx-base-13.jar javafx-base-13-win.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="${dir.buildfile}/target/classes"/>
+            <zipfileset dir="C:/Users/Amaury/.m2/repository/org/openjfx/javafx-controls/13" includes="javafx-controls-13.jar"/>
+            <zipfileset dir="C:/Users/Amaury/.m2/repository/org/openjfx/javafx-controls/13" includes="javafx-controls-13-win.jar"/>
+            <zipfileset dir="C:/Users/Amaury/.m2/repository/org/openjfx/javafx-graphics/13" includes="javafx-graphics-13.jar"/>
+            <zipfileset dir="C:/Users/Amaury/.m2/repository/org/openjfx/javafx-graphics/13" includes="javafx-graphics-13-win.jar"/>
+            <zipfileset dir="C:/Users/Amaury/.m2/repository/org/openjfx/javafx-base/13" includes="javafx-base-13.jar"/>
+            <zipfileset dir="C:/Users/Amaury/.m2/repository/org/openjfx/javafx-base/13" includes="javafx-base-13-win.jar"/>
+        </jar>
+    </target>
+</project>

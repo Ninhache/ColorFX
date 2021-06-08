@@ -26,3 +26,7 @@ hs_err_pid*
 .idea/
 .metadata/
 .settings/
+
+# build folders
+target/
+build/
