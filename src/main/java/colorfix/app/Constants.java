@@ -32,7 +32,6 @@ public class Constants {
 		new FileChooser.ExtensionFilter("Tous les fichiers (*)", "*"),
     };
     
-    
     public static Image loadImageRes(String path) {
     	return new Image(Assets.getAssetPath(path));
     }
