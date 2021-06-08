@@ -20,11 +20,10 @@ public class ColorAdjust {
         List<Color> newColors = new ArrayList<>();
 
         // Incrément de niveau de gris
-        final double brightnessDelta = 1.0 / (double)(colors.size() - 1);
+        final double delta = 1.0 / (double)(colors.size() - 1);
 
         var minColor = sourceColors.stream().min(comparator);
         var maxColor = sourceColors.stream().max(comparator);
-
         final double minBrightness = minColor.isPresent() ? minColor.get().getBrightness() : 0;
         final double maxBrightness = maxColor.isPresent() ? maxColor.get().getBrightness() : 1;
 
@@ -33,8 +32,9 @@ public class ColorAdjust {
 
             // Valeurs de la nouvelle couleur
             final double hue = oldCol.getHue();
-            final double sat = oldCol.getSaturation();
-            final double bri = Maths.map(i * brightnessDelta, 0, 1, minBrightness, maxBrightness);
+            //final double sat = oldCol.getSaturation();
+            final double sat = Math.pow(oldCol.getSaturation(), 0.8);
+            final double bri = Maths.map(Math.pow(i * delta, 0.8), 0, 1, minBrightness, maxBrightness);
             //final double bri = i * brightnessDelta;
 
             Color newCol = Color.hsb(hue, sat, bri);
