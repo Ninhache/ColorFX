@@ -13,6 +13,7 @@ import colorfix.app.controls.table.ColorTableView;
 import colorfix.app.controls.table.TablePlaceholder;
 import colorfix.app.stages.dialogs.ColorChooserDialog;
 import colorfix.app.util.ColorUtil;
+import colorfix.app.util.MessageBox;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
@@ -217,7 +218,9 @@ public class MainStage extends ExtendedStage {
     }
 
     private void onRemoveAllClicked(ActionEvent e) {
-        colorTable.getItems().removeAll(colorTable.getItems());
+        if (MessageBox.showConfirm("Tout supprimer", "Vous êtes sur le point de vider la liste des couleurs sélectionnées.\nVoulez-vous continuer ?") == ButtonType.OK) {
+            colorTable.getItems().removeAll(colorTable.getItems());
+        }
     }
 
     private void onAboutClicked(ActionEvent e) {
